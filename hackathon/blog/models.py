@@ -8,3 +8,7 @@ class BlogPost(models.Model):
     content = models.TextField()
     date = models.DateTimeField(default = timezone.now)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
+    imagelink = models.CharField(max_length=100, default='None')
+
+    def __str__(self):
+        return self.title
