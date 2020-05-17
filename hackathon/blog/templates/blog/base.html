@@ -9,9 +9,22 @@
     </head>
     <body>
         
-    <div class="contentblock">
-      {% block content %}{% endblock %}
-    </div>
+      <main role="main" class="container contentblock">
+        <div class="row">
+          <div class="col-md-8">
+            {% block content %}{% endblock %}
+          </div>
+          <div class="col-md-4">
+            <div class="content-section">
+              <h3>Information</h3>
+              <p class='text-muted'>
+                <iframe width="300" height="180" src="https://www.youtube-nocookie.com/embed/5QbM7Vsz3kg?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
 
     </body>
 
