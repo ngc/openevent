@@ -2,16 +2,17 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
-        <legend class="border-bottom mb-4"> {{ user.get_full_name }} </legend>
-        <p class="font-weight-bold">School: {{ user.profile.school }}</p>
-        {% if user.profile.team != "" %}
-        <p class="font-weight-bold">Team: {{ user.profile.team }}</p>
+        <legend class="border-bottom mb-4"> {{ profile.user.get_full_name }} </legend>
+        <p class="font-weight-bold">School: {{ profile.school }}</p>
+        {% if profile.team != "" %}
+        <p class="font-weight-bold" href="{{ profile.team }}">Team: {{ profile.team }}</p>
         {% endif %}
 
-        <p>{{ user.profile.bio }}</p>
+        <p>{{ profile.bio }}</p>
 
     </div>
 
+    {% if p_form %}
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -23,9 +24,7 @@
                 <button class="btn btn-outline-info" type="submit">Update</button>
             </div>
         </form>
-        <div class="border-top pt-3">
-            <small class="text-muted"> <a class="ml-2" href="{% url 'login' %}"></a>Login...</small>
-        </div>
     </div>
+    {% endif %}
 
 {% endblock content %}

@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from . forms import UserRegisterForm as UserCreationForm, ProfileUpdateForm
-from .models import Profile
+from .models import Profile, Team
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from blog import views as blog_views
+from django.http import HttpResponse
 
 allowing_new_users = True #Change this value if registration should be allowed or not 
                           #Mississauga Hacks should use false at the start of the event
@@ -27,6 +28,15 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 @login_required
+def get_user_profile(request, username):
+    p = Profile.objects.get(user=User.objects.get(username=username))
+    return render(request, 'users/profile.html', {"profile": p})
+
+def get_team(request, team):
+    teamobject = Team.objects.get(name=team)
+    return render(request, 'users/team.html', {'team': teamobject})
+
+@login_required
 def profile(request):
     if request.method == 'POST':
         p_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
@@ -39,7 +49,7 @@ def profile(request):
     
     context = {
     'p_form': p_form,
-    'profile': User.objects.get(pk=request.user.id)
+    'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id))
     }
     return render(request, 'users/profile.html', context)
 

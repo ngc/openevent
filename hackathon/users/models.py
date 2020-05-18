@@ -4,10 +4,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 # Create your models here.
+class Team(models.Model):
+    name = models.CharField(max_length=100, blank=True, default='')
+    users = models.ManyToManyField(User)
+    def __str__(self):
+        return self.name
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school = models.CharField(max_length=100, blank=True, default='')
-    team = models.CharField(max_length=100, blank=True, default='')
+    team = models.OneToOneField(Team, on_delete=models.CASCADE, blank=True, null=True)
     bio = models.TextField(blank=False, default='')
 
 @receiver(post_save, sender=User)
