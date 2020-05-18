@@ -28,6 +28,14 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 @login_required
+def view_all_submissions(request):
+    return render(request, 'users/grading.html', {'posts': Submission.objects.all()})
+
+@login_required
+def get_submission_page(request, username):
+    return render(request, 'users/mysubmission.html', {'post': Submission.objects.get(author=User.objects.get(username=username))})
+
+@login_required
 def view_my_submission(request):
     if request.method == 'POST':
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))

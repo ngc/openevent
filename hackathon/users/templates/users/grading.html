@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="card-deck" style="">
+    {% for item in posts %}
+    <a name="{{ item.title }}"></a>
+        <div class="card">
+            <img class="card-img-top" src="{{ item.imagelink }}" alt="{{ item.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">{{ item.content }}</p>
+              <a href="../../../../../submission/{{ item.author }}" class="btn btn-primary"><i class="fas fa-link"></i>      Visit</a>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted"></small>
+            </div>
+          </div>
+
+        {% if forloop.counter|divisibleby:"1"  %}
+            </div><div class="card-deck" style="margin-top: 2%;">
+        {% endif %}
+    {% endfor %}
+</div>
+<a style="margin-bottom: 2%;" href="#" class="btn btn-lg btn-success">Cast Your Vote</a>
+
+{% endblock content %}
