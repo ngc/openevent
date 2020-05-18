@@ -13,7 +13,7 @@ class Team(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school = models.CharField(max_length=100, blank=True, default='', null=True)
-    team = models.OneToOneField(Team, on_delete=models.CASCADE, blank=True, null=True)
+    team = models.ManyToManyField(Team, blank=True, null=True)
     bio = models.TextField(blank=False, default='', null=True)
 
 @receiver(post_save, sender=User)
