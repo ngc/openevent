@@ -5,6 +5,7 @@
 
 <div class="card-deck" style="">
     {% for item in posts %}
+    {% if item.actualSubmission %}
     <a name="{{ item.title }}"></a>
         <div class="card">
             <img class="card-img-top" src="{{ item.imagelink }}" alt="{{ item.title }}">
@@ -21,6 +22,7 @@
         {% if forloop.counter|divisibleby:"1"  %}
             </div><div class="card-deck" style="margin-top: 2%;">
         {% endif %}
+    {% endif %}
     {% endfor %}
 </div>
 <a style="margin-bottom: 2%;" href="#" class="btn btn-lg btn-success">Cast Your Vote</a>

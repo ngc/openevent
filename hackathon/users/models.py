@@ -16,17 +16,18 @@ class Submission(models.Model):
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
+    
     Main_Link = models.CharField(max_length=100, default='https://www.google.com/',)
-    label_Main_Link = models.CharField(max_length=100, default='Main',)
+    label_Main_Link = models.CharField(max_length=26, default='Main',)
     
     Link2 = models.CharField(max_length=100, default='', blank=True)
-    label_Link2 = models.CharField(max_length=100, default='Link 2', blank=True)
+    label_Link2 = models.CharField(max_length=26, default='Link 2', blank=True)
 
     Link3 = models.CharField(max_length=100, default='', blank=True)
-    label_Link3 = models.CharField(max_length=100, default='Link 3', blank=True)
+    label_Link3 = models.CharField(max_length=26, default='Link 3', blank=True)
 
     Link4 = models.CharField(max_length=100, default='', blank=True)
-    label_Link4 = models.CharField(max_length=100, default='Link 4', blank=True)
+    label_Link4 = models.CharField(max_length=26, default='Link 4', blank=True)
     
     imagelink = models.CharField(max_length=100, default='', blank=True)
     actualSubmission = models.BooleanField(default=False)

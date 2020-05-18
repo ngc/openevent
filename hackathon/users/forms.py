@@ -23,7 +23,7 @@ class SubmissionUpdateForm(forms.ModelForm):
         "title": "Title", 
         "content": "Content",
         "imagelink": "Image Link",
-        "Main_Link": "Main Link",
+        "Main_Link": "Main Link (Example https://www.google.com, not www.google.com)",
         "Link2": "Link 2 (Optional)",
         "Link3": "Link 3 (Optional)",
         "Link4": "Link 4 (Optional)",
