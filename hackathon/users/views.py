@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from . forms import UserRegisterForm as UserCreationForm, ProfileUpdateForm
-from .models import Profile, Team
+from . forms import UserRegisterForm as UserCreationForm, ProfileUpdateForm, SubmissionUpdateForm
+from .models import Profile, Team, Submission
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -26,6 +26,23 @@ def register(request):
     else:
         messages.warning(request, f'Account creation failed.')
     return render(request, 'users/register.html', {'form': form})
+
+@login_required
+def view_my_submission(request):
+    if request.method == 'POST':
+        p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
+        if p_form.is_valid():
+            p_form.save()
+            messages.success(request, f'Update successful.')
+            return redirect('../mysubmission')
+    else:
+        p_form = SubmissionUpdateForm(instance=Submission.objects.get(author=request.user))
+
+    context = {
+    'form': p_form,
+    'post': Submission.objects.get(author=request.user)
+    }
+    return render(request, 'users/mysubmission.html', context)
 
 @login_required
 def get_user_profile(request, username):

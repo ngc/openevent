@@ -1,9 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-
-# Register your models here.
-from users.models import Profile, Team
+from users.models import Profile, Team, Submission
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -18,3 +16,4 @@ class Team_display(admin.ModelAdmin):
 admin.site.unregister(User)
 admin.site.register(Team, Team_display)
 admin.site.register(User, UserAdmin)
+admin.site.register(Submission)
