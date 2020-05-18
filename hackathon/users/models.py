@@ -16,6 +16,18 @@ class Submission(models.Model):
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
+    Main_Link = models.CharField(max_length=100, default='https://www.google.com/',)
+    label_Main_Link = models.CharField(max_length=100, default='Main',)
+    
+    Link2 = models.CharField(max_length=100, default='', blank=True)
+    label_Link2 = models.CharField(max_length=100, default='Link 2', blank=True)
+
+    Link3 = models.CharField(max_length=100, default='', blank=True)
+    label_Link3 = models.CharField(max_length=100, default='Link 3', blank=True)
+
+    Link4 = models.CharField(max_length=100, default='', blank=True)
+    label_Link4 = models.CharField(max_length=100, default='Link 4', blank=True)
+    
     imagelink = models.CharField(max_length=100, default='', blank=True)
     actualSubmission = models.BooleanField(default=False)
     def __str__(self):
@@ -24,7 +36,7 @@ class Submission(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school = models.CharField(max_length=100, blank=True, default='', null=True)
-    team = models.ManyToManyField(Team, blank=True, null=True)
+    team = models.ManyToManyField(Team, blank=True)
     bio = models.TextField(blank=False, default='', null=True)
     submission = models.OneToOneField(Submission, blank=True, null=True, on_delete=models.CASCADE)
 

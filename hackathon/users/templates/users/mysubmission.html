@@ -5,12 +5,14 @@
         <div class="media-body">
           <div class="article-metadata">
             <a class="mr-2" href="../../../../user/{{ post.author }}">{{ post.author.get_full_name }}</a>
-            <small class="text-muted">{{ post.date }}</small>
+            <small class="text-muted">Last Updated: {{ post.date }}</small>
           </div>
           <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
           <img class="article-content" src="{{ post.imagelink }}" style="width: 100%;">
           <p class="article-content">{{ post.content }}</p>
+          {% if not form %}
           <a role="button" style="margin-bottom: 2px;" href="../../../../grading/#{{ post.title }}" class="article-content btn btn-primary">Back</a>
+          {% endif %}
           {% if user.is_superuser %}
           <a role="button" style="margin-bottom: 2px;" href="../../../../admin/users/submission/" class="article-content btn btn-success">Edit</a>
           {% endif %}
@@ -31,7 +33,7 @@
           </form>
       </div>
       <p>NOTE: There must be exactly one submission for each team, meaning that at least one person on every team has to fill out this form. 
-      To show that you're the designated submitter for your team check the "ActualSubmission" box, no one other than the designated submitter has to submit for your team.
+      To show that you're the designated submitter for your team check the "Actual Submission" box, no one other than the designated submitter has to submit for your team.
         If you're working alone do so anyway. </p>
       {% endif %}
 
