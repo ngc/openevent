@@ -12,9 +12,9 @@ class Team(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    school = models.CharField(max_length=100, blank=True, default='')
+    school = models.CharField(max_length=100, blank=True, default='', null=True)
     team = models.OneToOneField(Team, on_delete=models.CASCADE, blank=True, null=True)
-    bio = models.TextField(blank=False, default='')
+    bio = models.TextField(blank=False, default='', null=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -22,5 +22,6 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+def save_user_profile(sender, created, instance, **kwargs):
+    if created:
+        instance.profile.save()
