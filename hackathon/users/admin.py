@@ -7,8 +7,12 @@ class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
 
+class SubmissionInLine(admin.StackedInline):
+    model = Submission
+    can_delete = False
+
 class UserAdmin(BaseUserAdmin):
-    inlines = [ProfileInline]
+    inlines = [ProfileInline, SubmissionInLine]
 
 class Team_display(admin.ModelAdmin):
     list_display = ['name']
