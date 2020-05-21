@@ -63,6 +63,7 @@ with open(path) as data:
             password = pword,
             first_name = row['FIRST NAME'].replace(" ", ""),
             last_name = row['LAST NAME'].replace(" ", ""),
+            school = row['SCHOOL']
             email = row['EMAIL'].replace(" ", ""),   
         )
         p.save()

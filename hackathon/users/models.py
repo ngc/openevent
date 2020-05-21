@@ -50,6 +50,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         #Editing default data with dynamic details
         instance.profile.submission = instance.submission
         instance.profile.team = Team.objects.get(name=instance.get_full_name().replace(" ", ""))
+        Team.objects.get(name=instance.get_full_name().replace(" ", "")).users.add(instance)
         instance.submission.title = "Submission " + GenRandom(9)
 
 @receiver(post_save, sender=User)

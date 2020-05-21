@@ -9,8 +9,22 @@
         {% for member in team.users.all %}
         <a href="../../../../../../user/{{ member.username }}">{{ member.get_full_name }}{% if not forloop.last %},{% endif %}</a>
         {% endfor %}
-
         </h6>
-
     </div>
+
+    {% if p_form %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class = "form-group">
+                <legend class="border-bottom mb-4">Update Name</legend>
+                {{ p_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
 {% endblock content %}

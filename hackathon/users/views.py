@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . forms import UserRegisterForm as UserCreationForm, ProfileUpdateForm, SubmissionUpdateForm
+from . forms import UserRegisterForm, ProfileUpdateForm, SubmissionUpdateForm, TeamUpdateForm
 from .models import Profile, Team, Submission
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -12,15 +12,15 @@ allowing_new_users = True #Change this value if registration should be allowed o
 
 def register(request):
     if request.method == 'POST' and allowing_new_users:
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account successfully created for {username}.')
             return redirect('/')
     else:
-        form = UserCreationForm()
-    form = UserCreationForm()
+        form = UserRegisterForm()
+    form = UserRegisterForm()
     if(allowing_new_users == False):
         messages.warning(request, f'Not accepting new users.')
     else:
@@ -55,11 +55,22 @@ def view_my_submission(request):
 @login_required
 def get_user_profile(request, username):
     p = Profile.objects.get(user=User.objects.get(username=username))
+    if(request.user.username == username): return profile(request)
     return render(request, 'users/profile.html', {"profile": p})
 
 def get_team(request, team):
     teamobject = Team.objects.get(name=team)
-    return render(request, 'users/team.html', {'team': teamobject})
+    
+    if request.method == 'POST' and teamobject.name == request.user.profile.team.name :
+        p_form = TeamUpdateForm(request.POST, instance=teamobject)
+        if p_form.is_valid():
+            p_form.save()
+            messages.success(request, f'Update successful.')
+            return redirect('../../team/' + teamobject.name + "/")
+    else:
+        p_form = TeamUpdateForm(instance=request.user.profile)
+
+    return render(request, 'users/team.html', {'team': teamobject, 'p_form': p_form})
 
 @login_required
 def profile(request):

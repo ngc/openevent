@@ -7,7 +7,14 @@
     {% for item in posts %}
     {% if item.actualSubmission %}
     <a name="{{ item.title }}"></a>
+    
         <div class="card">
+            <div class="p-2 article-metadata">
+              <a href="../../../../../team/{{ item.author.profile.team.name }}">{{ item.author.profile.team.name }}</a>
+              <div>
+              <small class="text-muted">Last Updated: {{ item.date }}</small>
+            </div>
+            </div>
             <img class="card-img-top" src="{{ item.imagelink }}" alt="{{ item.title }}">
             <div class="card-body">
               <h5 class="card-title">{{ item.title }}</h5>
@@ -18,7 +25,7 @@
               <small class="text-muted"></small>
             </div>
           </div>
-
+       
         {% if forloop.counter|divisibleby:"1"  %}
             </div><div class="card-deck" style="margin-top: 2%;">
         {% endif %}
