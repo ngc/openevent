@@ -1,6 +1,11 @@
 {% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<div style="margin-bottom: 1%;">
+  <a class="text-muted">Check the "Actual Submission" box if you are your team's leader, or if you're working alone.</a>
+  <a class="text-muted">Your submission WILL NOT be public otherwise.</a>
+</div>
+
     <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
@@ -53,8 +58,8 @@
           </form>
       </div>
       <p>NOTE: There must be exactly one submission for each team, meaning that at least one person on every team has to fill out this form. 
-      To show that you're the designated submitter for your team check the "Actual Submission" box, no one other than the designated submitter has to submit for your team.
-        If you're working alone do so anyway. </p>
+        To show that you're the designated submitter for your team check the "Actual Submission" box, no one other than the designated submitter has to/should submit for your team.
+          If you're working alone do so anyway. </p>
       {% endif %}
 
     {% endblock content %}

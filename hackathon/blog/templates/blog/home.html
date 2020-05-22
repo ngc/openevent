@@ -8,7 +8,7 @@
             <small class="text-muted">{{ post.date }}</small>
           </div>
           <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-          <img class="article-content" src="{{ post.imagelink }}">
+          <img class="article-content" style="max-width: 100%;" src="{{ post.imagelink }}">
           <p class="article-content">{{ post.content }}</p>
           {% if user.is_superuser %}
           <a role="button" style="margin-bottom: 2px;" href="../../../../admin/blog/blogpost/" class="article-content btn btn-success">Edit</a>
