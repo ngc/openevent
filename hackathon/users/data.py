@@ -37,7 +37,7 @@ with open(path) as data:
         if(row['TIME'] == ""): continue
         if(row['FIRST NAME'].replace(" ", "") + " " + row['LAST NAME'].replace(" ", "") not in teams):
             p = Team(
-                name = row['FIRST NAME'].replace(" ", "") + " " + row['LAST NAME'].replace(" ", "")
+                name = row['FIRST NAME'].replace(" ", "") + row['LAST NAME'].replace(" ", "")
             )
             p.save() 
 
@@ -54,7 +54,7 @@ with open(path) as data:
         print("Username: " + uname + " | Password: " + pword)
         usernames.append(uname)
         if(row['TEAM'] == ""):
-            tname = row['FIRST NAME'].replace(" ", "") + " " + row['LAST NAME'].replace(" ", "")
+            tname = row['FIRST NAME'].replace(" ", "") + row['LAST NAME'].replace(" ", "")
         else:
             tname = row['TEAM']
         tname = tname.replace(" ", "")
@@ -67,9 +67,20 @@ with open(path) as data:
             email = row['EMAIL'].replace(" ", ""),   
         )
         p.save()
-        User.objects.get(username=uname).profile.team = Team.objects.get(name=tname)
-        User.objects.get(username=uname).profile.school = row['SCHOOL']
-        Team.objects.get(name=tname).users.add(User.objects.get(username=uname))
+
+        p = User.objects.get(username=uname)
+        p.profile.school = (row['SCHOOL'])
+        p.profile.save()
+
+        p = User.objects.get(username=uname)
+        p.profile.team = Team.objects.get(name=tname)
+        p.profile.save()
+
+        t = Team.objects.get(name=tname)
+        t.users.add(User.objects.get(username=uname))
+        t.save()
+
+exit()
 
 zl = list(zip(usernames, pw))
 df = pd.DataFrame(zl, columns=["Username", "Password"])

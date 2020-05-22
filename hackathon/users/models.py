@@ -38,7 +38,7 @@ class Submission(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school = models.CharField(max_length=100, blank=True, default='', null=True)
-    team = models.OneToOneField(Team, blank=True, on_delete=models.CASCADE, null=True)
+    team = models.ForeignKey(Team, blank=True, on_delete=models.CASCADE, null=True)
     bio = models.TextField(blank=False, default='Nothing has been written here yet...', null=True)
     submission = models.OneToOneField(Submission, blank=True, null=True, on_delete=models.CASCADE)
 
@@ -49,8 +49,8 @@ def create_user_profile(sender, instance, created, **kwargs):
         Submission.objects.create(author=instance)
         #Editing default data with dynamic details
         instance.profile.submission = instance.submission
-        instance.profile.team = Team.objects.get(name=instance.get_full_name().replace(" ", ""))
-        Team.objects.get(name=instance.get_full_name()).users.add(instance)
+     #   instance.profile.team = Team.objects.get(name=instance.get_full_name().replace(" ", ""))
+       # Team.objects.get(name=instance.get_full_name().replace(" ", "")).users.add(instance)
         instance.submission.title = "Submission " + GenRandom(9)
 
 @receiver(post_save, sender=User)
