@@ -60,17 +60,19 @@ def get_user_profile(request, username):
 
 def get_team(request, team):
     teamobject = Team.objects.get(name=team)
-    
-    if request.method == 'POST' and teamobject.name == request.user.profile.team.name :
+    if request.method == 'POST':
         p_form = TeamUpdateForm(request.POST, instance=teamobject)
         if p_form.is_valid():
             p_form.save()
             messages.success(request, f'Update successful.')
             return redirect('../../team/' + teamobject.name + "/")
     else:
-        p_form = TeamUpdateForm(instance=request.user.profile)
+        p_form = TeamUpdateForm(request.POST, instance=teamobject)
 
-    return render(request, 'users/team.html', {'team': teamobject, 'p_form': p_form})
+    if(team == request.user.profile.team.name):
+        return render(request, 'users/team.html', {'team': teamobject, 'p_form': p_form})
+    else:
+        return render(request, 'users/team.html', {'team': teamobject,})
 
 @login_required
 def profile(request):

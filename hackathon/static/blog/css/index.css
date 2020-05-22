@@ -1,0 +1,149 @@
+body {
+  background-color: #191654;
+}
+
+#top {
+  padding: 5rem;
+  padding-bottom: 300px;
+  background-color: white;
+  z-index: -2;
+}
+
+.wave,
+.shadow-wave {
+  width: 100%;
+  height: auto;
+  fill: #191654;
+  margin: 0;
+  position: relative;
+  top: -500px;
+  z-index: 1000;
+}
+
+.shadow-wave {
+  position: relative;
+  top: -250px;
+  -webkit-transform: rotate(-2deg);
+          transform: rotate(-2deg);
+  fill: #191654;
+  z-index: 0;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  background-color: #259b9b;
+  border-radius: 2rem;
+  border-style: none;
+  color: white;
+  font-weight: bold;
+}
+
+h1 {
+  color: #191654;
+  font-size: 4rem;
+}
+
+h3 {
+  color: #fff;
+}
+
+#top img,
+#desc img {
+  width: 50%;
+  max-width: 600px;
+  height: 50%;
+}
+
+.list-group-item {
+  border-left: 10px solid #191654;
+  margin: 0.5rem 0;
+}
+
+.list-group-item span:first-of-type {
+  margin: 0 1rem 0 0;
+}
+
+.gradient {
+  background: #43c6ac;
+  /* fallback for old browsers */
+  background: -webkit-gradient(linear, left top, left bottom, from(#191654), color-stop(#43c6ac), to(#e9e9d3));
+  background: linear-gradient(to bottom, #191654, #43c6ac, #e9e9d3);
+  padding-bottom: 450px;
+  position: relative;
+  top: -500px;
+}
+
+.gradient > *,
+.gradient footer {
+  padding: 4rem 0;
+}
+
+.gradient h2,
+.gradient p {
+  color: white;
+}
+
+footer svg {
+  width: 60px;
+  height: 60px;
+  margin: 10px 30px;
+  fill: #fff;
+}
+
+.rounded {
+  border-radius: 2rem !important;
+}
+
+.countdown {
+  margin: 0 -3rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  line-height: 120%;
+  text-align: center;
+
+  /*  border-bottom: 5px solid white;
+  border-top: 5px solid white; */
+}
+
+.countdown h2,
+.countdown #countdown {
+  font-size: 6rem;
+  font-weight: 700;
+  letter-spacing: 0.8rem;
+  line-height: 120%;
+  text-align: center;
+}
+
+.countdown h2 {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+#countdown,
+.countdown-text {
+  display: -ms-grid;
+  display: grid;
+  font-family: monospace;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+  color: white;
+  width: 50%;
+  margin: auto;
+}
+
+.countdown-text {
+  font-size: 1.5rem;
+}
+
+footer {
+  background-color: #191654;
+  position: relative;
+  top: -710px;
+}
+
+.footer-svg {
+  fill: #191654;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  position: relative;
+  top: -700px;
+}
+/*# sourceMappingURL=index.css.map */
