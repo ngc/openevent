@@ -27,6 +27,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'Score']
 
 class ViewsMasterControlBoardAdmin(admin.ModelAdmin):
+    upper_case_name.short_description = 'Name'
     def has_add_permission(self, request):
         return True
 
