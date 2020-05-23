@@ -58,8 +58,8 @@ def get_user_profile(request, username):
     if(request.user.username == username): return profile(request)
     return render(request, 'users/profile.html', {"profile": p})
 
-def get_team(request, team):
-    teamobject = Team.objects.get(name=team)
+def get_team(request, teamid):
+    teamobject = Team.objects.get(id=teamid)
     if request.method == 'POST':
         p_form = TeamUpdateForm(request.POST, instance=teamobject)
         if p_form.is_valid():
@@ -69,7 +69,7 @@ def get_team(request, team):
     else:
         p_form = TeamUpdateForm(request.POST, instance=teamobject)
 
-    if(team == request.user.profile.team.name):
+    if(teamid == request.user.profile.team.id):
         return render(request, 'users/team.html', {'team': teamobject, 'p_form': p_form})
     else:
         return render(request, 'users/team.html', {'team': teamobject,})
@@ -91,3 +91,6 @@ def profile(request):
     }
     return render(request, 'users/profile.html', context)
 
+@login_required
+def castVote(request):
+    return render(request, 'users/profile.html', {'posts': Submission.objects.all()})

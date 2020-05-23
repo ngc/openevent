@@ -27,7 +27,7 @@ def genPassword(length=6):
     password = ''.join(passwordList)
     return password
 
-path = "C:/Users/Nathan/Desktop/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (1).csv"
+path = "C:/Users/Nathan/Desktop/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (2).csv"
 
 #Team Handler
 teams = []

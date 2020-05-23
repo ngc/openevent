@@ -13,9 +13,11 @@ class SubmissionInLine(admin.StackedInline):
 
 class UserAdmin(BaseUserAdmin):
     inlines = [ProfileInline, SubmissionInLine]
+    readonly_fields = ('id',)
 
 class Team_display(admin.ModelAdmin):
     list_display = ['name']
+    readonly_fields = ('id',)
 
 admin.site.unregister(User)
 admin.site.register(Team, Team_display)

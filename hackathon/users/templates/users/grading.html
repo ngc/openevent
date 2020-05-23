@@ -32,6 +32,20 @@
     {% endif %}
     {% endfor %}
 </div>
-<a style="margin-bottom: 2%;" href="#" class="btn btn-lg btn-success">Cast Your Vote</a>
+<button onclick="VoteFunc()" style="margin-bottom: 2%;" href="#" class="btn btn-lg btn-success">Cast Your Vote</button>
+
+<script>
+
+function VoteFunc(){
+  var result = window.confirm("YOU ARE NOW GOING TO BEGIN VOTING.\nONCE YOU EXIT THE VOTING SCREEN YOU CAN NOT RETURN TO IT AGAIN.\nBE SURE YOU HAVE GONE THROUGH EVERYONE'S SUBMISSIONS.");
+  if(result){
+    location.href = '../../../../../../../voting';
+  }
+  
+
+}
+
+</script>
+
 
 {% endblock content %}
