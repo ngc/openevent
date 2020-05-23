@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from users.models import Profile, Team, Submission, Vote, ViewsMasterControlBoard
+from users.models import Profile, Team, Submission, Vote
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -26,16 +26,7 @@ class Team_display(admin.ModelAdmin):
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'Score']
 
-class ViewsMasterControlBoardAdmin(admin.ModelAdmin):
-    upper_case_name.short_description = 'Name'
-    def has_add_permission(self, request):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
 admin.site.unregister(User)
 admin.site.register(Team, Team_display)
 admin.site.register(User, UserAdmin)
 admin.site.register(Submission, SubmissionAdmin)
-admin.site.register(ViewsMasterControlBoard, ViewsMasterControlBoardAdmin)

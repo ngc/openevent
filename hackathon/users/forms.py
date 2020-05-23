@@ -48,8 +48,7 @@ class VoteForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(VoteForm, self).__init__(*args, **kwargs)
-        self.user = kwargs.pop('user')
-        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.filter(actualSubmission=True).exclude(id=self.user.submission.id), widget=forms.CheckboxSelectMultiple())
+        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.filter(actualSubmission=True), widget=forms.CheckboxSelectMultiple())
 
     def clean_status(self):
         if len(self.cleaned_data['CHOICES']) == 3:

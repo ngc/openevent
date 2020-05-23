@@ -49,21 +49,6 @@ class Vote(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     CHOICES = models.ManyToManyField(Submission, blank=True)
 
-class ViewsMasterControlBoard(models.Model):
-    #Every default here should be set as to how you'd like the hackathon to start off
-    AllowVoting = models.BooleanField(default=False)
-    AllowSubmitting = models.BooleanField(default=True)
-    AllowRegistration = models.BooleanField(default=False)
-    AllowViewingSubmissions = models.BooleanField(default=False)
-    AllowViewingWinners = models.BooleanField(default=False)
-    identifier = models.CharField(default='MASTER', max_length=100)
-    def __str__(self):
-        return self.identifier
-    class Meta:
-        verbose_name = 'VIEWS MASTER CONTROL BOARD'
-        verbose_name_plural = verbose_name
-
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     global SubmissionIDCounter
