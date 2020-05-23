@@ -80,7 +80,6 @@ with open(path) as data:
         t.users.add(User.objects.get(username=uname))
         t.save()
 
-exit()
 
 zl = list(zip(usernames, pw))
 df = pd.DataFrame(zl, columns=["Username", "Password"])

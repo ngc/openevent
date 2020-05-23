@@ -11,7 +11,6 @@ def GenRandom(length):
     letters = string.ascii_letters + string.digits
     return ''.join(random.choice(letters) for i in range(length))
 
-# Create your models here.
 class Team(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
     users = models.ManyToManyField(User)
@@ -32,7 +31,7 @@ class Submission(models.Model):
     Link4 = models.CharField(max_length=100, default='', blank=True)
     label_Link4 = models.CharField(max_length=26, default='Link 4', blank=True)
     imagelink = models.CharField(max_length=100, default='', blank=True)
-    SubmissionID = models.IntegerField(default=0)
+    Score = models.IntegerField(default=0)
 
     actualSubmission = models.BooleanField(default=False)
     def __str__(self):
@@ -45,13 +44,18 @@ class Profile(models.Model):
     bio = models.TextField(blank=False, default='Nothing has been written here yet...', null=True)
     submission = models.OneToOneField(Submission, blank=True, null=True, on_delete=models.CASCADE)
     hasVoted = models.BooleanField(default=False)
-            
+
+class Vote(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    CHOICES = models.ManyToManyField(Submission, blank=True)
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     global SubmissionIDCounter
     if created:
         Profile.objects.create(user=instance)
         Submission.objects.create(author=instance)
+        Vote.objects.create(user=instance)
         #Editing default data with dynamic details
         instance.profile.submission = instance.submission
         instance.submission.title = "Submission " + GenRandom(9) 
@@ -61,3 +65,4 @@ def save_user_profile(sender, created, instance, **kwargs):
     if created:
         instance.profile.save()
         instance.submission.save()
+        instance.vote.save()

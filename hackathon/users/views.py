@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . forms import UserRegisterForm, ProfileUpdateForm, SubmissionUpdateForm, TeamUpdateForm
+from . forms import UserRegisterForm, ProfileUpdateForm, SubmissionUpdateForm, TeamUpdateForm, VoteForm
 from .models import Profile, Team, Submission
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -92,5 +92,26 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 @login_required
-def castVote(request):
-    return render(request, 'users/profile.html', {'posts': Submission.objects.all()})
+def voting(request):
+    if(request.user.profile.hasVoted):
+        return redirect('../allsubmissions/')
+
+    if request.method == 'POST':
+        p_form = VoteForm(request.POST, instance=request.user.vote)
+        if p_form.is_valid():
+                p_form.save()
+                messages.success(request, f'Update successful.')
+                o = Profile.objects.get(user=User.objects.get(pk=request.user.id))
+                o.hasVoted = True
+                o.save()
+                return redirect('../profile')
+    else:
+        messages.warning(request, f'Choose exactly 3 submissions.')
+        p_form = VoteForm(instance=request.user.vote)
+
+    context = {
+    'p_form': p_form,
+    'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id))
+    }
+
+    return render(request, 'users/voting.html', context)

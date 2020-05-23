@@ -2,8 +2,9 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-
-<div class="card-deck" style="">
+<div>
+{% if not request.user.profile.hasVoted %}
+<div class="card-deck">
     {% for item in posts %}
     {% if item.actualSubmission %}
     <a name="{{ item.title }}"></a>
@@ -32,7 +33,16 @@
     {% endif %}
     {% endfor %}
 </div>
+
+
 <button onclick="VoteFunc()" style="margin-bottom: 2%;" href="#" class="btn btn-lg btn-success">Cast Your Vote</button>
+{% else %}
+<h1>Thank you for Voting!</h1>
+<small class="text-muted">Winners will be announced soon.</small>
+{% endif %}
+
+</div>
+
 
 <script>
 
@@ -41,8 +51,6 @@ function VoteFunc(){
   if(result){
     location.href = '../../../../../../../voting';
   }
-  
-
 }
 
 </script>

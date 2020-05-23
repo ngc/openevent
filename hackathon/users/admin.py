@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from users.models import Profile, Team, Submission
+from users.models import Profile, Team, Submission, Vote
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -11,8 +11,12 @@ class SubmissionInLine(admin.StackedInline):
     model = Submission
     can_delete = False
 
+class VoteInLine(admin.StackedInline):
+    model = Vote
+    can_delete = False
+
 class UserAdmin(BaseUserAdmin):
-    inlines = [ProfileInline, SubmissionInLine]
+    inlines = [ProfileInline, SubmissionInLine, VoteInLine]
     readonly_fields = ('id',)
 
 class Team_display(admin.ModelAdmin):

@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import ModelMultipleChoiceField, ValidationError
 from django.contrib.auth.models import User
-from .models import Profile, Submission, Team
+from .models import Profile, Submission, Team, Vote
 from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
@@ -38,3 +39,31 @@ class SubmissionUpdateForm(forms.ModelForm):
         "label_Link4": "Label for Link 4",
         "actualSubmission": "Actual Submission",
         }
+
+class VoteForm(forms.ModelForm):
+
+    choices = forms.ModelMultipleChoiceField(queryset=Submission.objects.filter(actualSubmission=False), widget=forms.CheckboxSelectMultiple())
+    class Meta:
+        model = Vote
+        fields = ('choices',)
+
+#    def __init__(self, *args, **kwargs):
+ #       super().__init__(*args, **kwargs)
+  #      self.fields['ch'].widget=forms.CheckboxSelectMultiple()
+
+    def clean_choices(self):
+        if len(self.cleaned_data['choices']) == 3:
+            return self.cleaned_data['choices']
+        else:
+            raise ValidationError("Choose exactly 3 submissions")
+
+
+# #
+#class VoteForm(forms.Form):
+#    class Meta:
+#        model = Vote
+#        
+#
+#        
+
+#  
