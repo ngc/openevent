@@ -130,7 +130,7 @@ def winners(request):
         return redirect('../allsubmissions/')
 
     context = {
-    'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score')
+    'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score').reverse()
     }
 
     return render(request, 'users/winners.html', context)

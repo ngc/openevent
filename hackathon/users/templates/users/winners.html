@@ -11,8 +11,8 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Name/Team</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col">Submission Name</th>
+          <th scope="col">Score</th>
         </tr>
       </thead>
 
@@ -21,8 +21,8 @@
 
     <tr>
         <th scope="row">{{ forloop.counter}} </th>
-        <td>{{ item.author.profile.team.name }}</td>
-        <td>{{ item.title }}</td>
+        <td><a href="../../../../team/{{ item.author.profile.team.id }}">{{ item.author.profile.team.name }}</a></td>
+        <td><a href="../../../../submission/{{ item.author.username }}">{{ item.title }}</a></td>
         <td>{{ item.Score }}</td>
     </tr>
        
