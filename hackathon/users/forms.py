@@ -40,22 +40,34 @@ class SubmissionUpdateForm(forms.ModelForm):
         "actualSubmission": "Actual Submission",
         }
 
-class VoteForm(forms.ModelForm):
 
-    choices = forms.ModelMultipleChoiceField(queryset=Submission.objects.filter(actualSubmission=False), widget=forms.CheckboxSelectMultiple())
+class VoteForm(forms.ModelForm):
     class Meta:
         model = Vote
-        fields = ('choices',)
+        fields = ['CHOICES']
 
-#    def __init__(self, *args, **kwargs):
- #       super().__init__(*args, **kwargs)
-  #      self.fields['ch'].widget=forms.CheckboxSelectMultiple()
+    def __init__(self, *args, **kwargs):
+        super(VoteForm, self).__init__(*args, **kwargs)
+        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.filter(actualSubmission=False), widget=forms.CheckboxSelectMultiple())
 
-    def clean_choices(self):
-        if len(self.cleaned_data['choices']) == 3:
-            return self.cleaned_data['choices']
+    def clean_status(self):
+        if len(self.cleaned_data['CHOICES']) == 3:
+            return self.cleaned_data['CHOICES']
         else:
             raise ValidationError("Choose exactly 3 submissions")
+
+#class VoteForm(forms.ModelForm):
+
+#    choices = forms.ModelMultipleChoiceField(queryset=Submission.objects.filter(actualSubmission=False), widget=forms.CheckboxSelectMultiple())
+ #   class Meta:
+  #      model = Vote
+   #     fields = ('choices',)
+
+#    def clean_choices(self):
+ #       if len(self.cleaned_data['choices']) == 3:
+  #          return self.cleaned_data['choices']
+   #     else:
+    #        raise ValidationError("Choose exactly 3 submissions")
 
 
 # #

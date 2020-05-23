@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . forms import UserRegisterForm, ProfileUpdateForm, SubmissionUpdateForm, TeamUpdateForm, VoteForm
-from .models import Profile, Team, Submission
+from .models import Profile, Team, Submission, Vote
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -97,13 +97,21 @@ def voting(request):
         return redirect('../allsubmissions/')
 
     if request.method == 'POST':
-        p_form = VoteForm(request.POST, instance=request.user.vote)
+        p_form = VoteForm(request.POST, instance=Vote.objects.get(user=User.objects.get(pk=request.user.id)))
         if p_form.is_valid():
                 p_form.save()
-                messages.success(request, f'Update successful.')
                 o = Profile.objects.get(user=User.objects.get(pk=request.user.id))
-                o.hasVoted = True
+           #     o.hasVoted = True
                 o.save()
+                
+                vote = Vote.objects.get(user=User.objects.get(pk=request.user.id))
+                for i in vote.CHOICES.all():
+                   f = Submission.objects.get(id=i.id)
+                   f.Score = f.Score + 1
+                   f.save()
+                    
+
+                messages.success(request, f'Thank you for voting!')
                 return redirect('../profile')
     else:
         messages.warning(request, f'Choose exactly 3 submissions.')

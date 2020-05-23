@@ -23,7 +23,10 @@ class Team_display(admin.ModelAdmin):
     list_display = ['name']
     readonly_fields = ('id',)
 
+class SubmissionAdmin(admin.ModelAdmin):
+    list_display = ['title', 'author', 'Score']
+
 admin.site.unregister(User)
 admin.site.register(Team, Team_display)
 admin.site.register(User, UserAdmin)
-admin.site.register(Submission)
+admin.site.register(Submission, SubmissionAdmin)
