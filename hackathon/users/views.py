@@ -29,14 +29,14 @@ def register(request):
 def view_all_submissions(request):
     MasterControl = ViewsMasterControlBoard.objects.get(identifier="MASTER")
     if(MasterControl.AllowViewingSubmissions == False and request.user.is_staff == False):
-        return render(request, 'users/notallowed.html', {'message': "Hold on! All Submission Will Be Public on June 7th at 6:00 PM!"})
+        return render(request, 'users/notallowed.html', {'message': "Hold on! All Submissions Will Be Public on June 7th at 6:00 PM!"})
     return render(request, 'users/grading.html', {'posts': Submission.objects.all()})
 
 @login_required
 def get_submission_page(request, username):
     MasterControl = ViewsMasterControlBoard.objects.get(identifier="MASTER")
     if(MasterControl and request.user.is_staff == False):
-        return render(request, 'users/notallowed.html', {'message': "Hold on! All Submission Will Be Public on June 7th at 6:00 PM!"})
+        return render(request, 'users/notallowed.html', {'message': "Hold on! All Submissions Will Be Public on June 7th at 6:00 PM!"})
     return render(request, 'users/mysubmission.html', {'post': Submission.objects.get(author=User.objects.get(username=username))})
 
 @login_required
@@ -137,7 +137,10 @@ def voting(request):
 @login_required
 def winners(request):
     MasterControl = ViewsMasterControlBoard.objects.get(identifier="MASTER")
-    if(request.user.profile.hasVoted == False and request.user.is_staff == False and MasterControl.AllowViewingWinners):
+    if(MasterControl.AllowViewingWinners == False):
+        return render(request, 'users/notallowed.html', {'message': "Hold on! Winners will be revealed on June 8th at 6:00 PM!"})
+
+    if(request.user.profile.hasVoted == False and request.user.is_staff == False):
         return redirect('../allsubmissions/')
 
     context = {
