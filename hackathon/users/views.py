@@ -101,7 +101,7 @@ def voting(request):
         if p_form.is_valid():
                 p_form.save()
                 o = Profile.objects.get(user=User.objects.get(pk=request.user.id))
-           #     o.hasVoted = True
+                o.hasVoted = True
                 o.save()
                 
                 vote = Vote.objects.get(user=User.objects.get(pk=request.user.id))
@@ -123,3 +123,14 @@ def voting(request):
     }
 
     return render(request, 'users/voting.html', context)
+
+@login_required
+def winners(request):
+    if(request.user.profile.hasVoted and request.user.is_staff == False):
+        return redirect('../allsubmissions/')
+
+    context = {
+    'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score')
+    }
+
+    return render(request, 'users/winners.html', context)
