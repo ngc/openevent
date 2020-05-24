@@ -7,8 +7,13 @@ from django.contrib.auth.decorators import login_required
 from blog import views as blog_views
 from django.http import HttpResponse
 
-allowing_new_users = True #Change this value if registration should be allowed or not 
-                          #Mississauga Hacks should use false at the start of the event
+
+###CONTROLLER###
+allowing_new_users = True
+allowing_viewing_submissions = False
+allow_submissions = True
+allow_voting = False
+################
 
 def register(request):
     if request.method == 'POST' and allowing_new_users:
@@ -29,15 +34,20 @@ def register(request):
 
 @login_required
 def view_all_submissions(request):
+    if(allowing_viewing_submissions == False):
+        return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
     return render(request, 'users/grading.html', {'posts': Submission.objects.all()})
 
 @login_required
 def get_submission_page(request, username):
+    if(allowing_viewing_submissions == False):
+        return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
+
     return render(request, 'users/mysubmission.html', {'post': Submission.objects.get(author=User.objects.get(username=username))})
 
 @login_required
 def view_my_submission(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and allow_submissions == True:
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
         if p_form.is_valid():
             p_form.save()
@@ -93,6 +103,10 @@ def profile(request):
 
 @login_required
 def voting(request):
+
+    if(allow_voting == False):
+        return render(request, "users/notallowed.html", {'message': "Hold on! Voting will be allowed at 6:00 PM on June 7th"})
+
     if(request.user.profile.hasVoted):
         return redirect('../allsubmissions/')
 
