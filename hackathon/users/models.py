@@ -49,6 +49,14 @@ class Vote(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     CHOICES = models.ManyToManyField(Submission, blank=True)
 
+class MasterControl(models.Model):
+    allowing_new_users = models.BooleanField(default=True)
+    allowing_viewing_submissions = models.BooleanField(default=False)
+    allow_submissions = models.BooleanField(default=True)
+    allow_viewing_winners = models.BooleanField(default=False)
+    allow_voting = models.BooleanField(default=False)
+    identifier = models.TextField(blank=False, default='MASTER', null=True)
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     global SubmissionIDCounter

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . forms import UserRegisterForm, ProfileUpdateForm, SubmissionUpdateForm, TeamUpdateForm, VoteForm
-from .models import Profile, Team, Submission, Vote
+from .models import Profile, Team, Submission, Vote, MasterControl
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from django.http import HttpResponse
 
 
 ###CONTROLLER###
+m = MasterControl.objects.get(identifier="MASTER")
 allowing_new_users = True
 allowing_viewing_submissions = False
 allow_submissions = True
@@ -17,7 +18,8 @@ allow_voting = allowing_viewing_submissions
 ################
 
 def register(request):
-    if request.method == 'POST' and allowing_new_users:
+    m = MasterControl.objects.get(identifier="MASTER")
+    if request.method == 'POST' and m.allowing_new_users:
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
@@ -27,7 +29,7 @@ def register(request):
     else:
         form = UserRegisterForm()
     form = UserRegisterForm()
-    if(allowing_new_users == False):
+    if(m.allowing_new_users == False):
         messages.warning(request, f'Not accepting new users.')
     else:
         messages.warning(request, f'Account creation failed.')
@@ -35,20 +37,22 @@ def register(request):
 
 @login_required
 def view_all_submissions(request):
-    if(allowing_viewing_submissions == False):
+    m = MasterControl.objects.get(identifier="MASTER")
+    if(m.allowing_viewing_submissions == False):
         return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
     return render(request, 'users/grading.html', {'posts': Submission.objects.all()})
 
 @login_required
 def get_submission_page(request, username):
-    if(allowing_viewing_submissions == False):
+    m = MasterControl.objects.get(identifier="MASTER")
+    if(m.allowing_viewing_submissions == False):
         return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
 
     return render(request, 'users/mysubmission.html', {'post': Submission.objects.get(author=User.objects.get(username=username))})
 
 @login_required
 def view_my_submission(request):
-    if request.method == 'POST' and allow_submissions == True:
+    if request.method == 'POST' and m.allow_submissions == True:
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
         if p_form.is_valid():
             p_form.save()
@@ -104,8 +108,8 @@ def profile(request):
 
 @login_required
 def voting(request):
-
-    if(allow_voting == False):
+    m = MasterControl.objects.get(identifier="MASTER")
+    if(m.allow_voting == False):
         return render(request, "users/notallowed.html", {'message': "Hold on! Voting will be allowed at 6:00 PM on June 7th"})
 
     if(request.user.profile.hasVoted):
@@ -141,7 +145,8 @@ def voting(request):
 
 @login_required
 def winners(request):
-    if(request.user.profile.hasVoted != True and request.user.is_staff == False or allow_viewing_winners == False):
+    m = MasterControl.objects.get(identifier="MASTER")
+    if(request.user.profile.hasVoted != True and request.user.is_staff == False or m.allow_viewing_winners == False):
         return redirect('../allsubmissions/')
 
     context = {
