@@ -10,7 +10,7 @@ from django.http import HttpResponse
 
 ###CONTROLLER###
 allowing_new_users = True
-allowing_viewing_submissions = True
+allowing_viewing_submissions = False
 allow_submissions = True
 allow_viewing_winners = False
 allow_voting = allowing_viewing_submissions

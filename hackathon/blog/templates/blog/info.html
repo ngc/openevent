@@ -1,0 +1,94 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="../../user/nathan">Nathan Coulas</a>
+        <small class="text-muted">{{ post.date }}</small>
+
+      <h2><a class="article-title">Welcome to MississaugaHacks2020!</a></h2>
+      <p style="margin-bottom: 4%;"class="article-content">Thank you for signing up for MississaugaHacks2020! This website will serve as the platform we use throughout the event where we will upload our submissions as well as vote on the winners.</p>
+      <p style="margin-bottom: 4%;"class="article-content">This page will be a repository of useful links for participants to visit including things such as free software and contact links.</p>
+    </article>
+
+<article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="../../user/nathan">Nathan Coulas</a>
+        <small class="text-muted">{{ post.date }}</small>
+
+      <h2><a class="article-title"><i class="fab fa-discord"></i> Discord Server</a></h2>
+      <p style="margin-bottom: 4%;"class="article-content">If you haven't already, make sure to join our Discord server as we can immediately give you help or answer any questions you have on there.</p>
+      <iframe align="right" src="https://discord.com/widget?id=712770263745298514&theme=dark" width="700" height="400" allowtransparency="true" frameborder="0"></iframe>
+    </article>
+
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="../../user/nathan">Nathan Coulas</a>
+            <small class="text-muted">{{ post.date }}</small>
+    
+          <h2><a class="article-title">GitHub Student Developer Pack</a></h2>
+          <img src="https://github.blog/wp-content/uploads/2014/10/4b0317bc-4599-11e4-8bc3-0ca4dd5223e8.png?fit=2284%2C889" style="max-width: 100%;">
+          <p style="margin-bottom: 4%;"class="article-content">GitHub currently offers a service for high school and university students called the GitHub Education Pack. With it you are given access to tons of expensive software for free, such as Unity Pro and Bootstrap Studio. </p> 
+          <p>You can also use it to get free hosting through DigitalOcean or to get a free domain which is perfect if you're making a website for your submission. 
+            To get the GitHub Education Pack you have to prove you are a student by filling out a form with GitHub and sending a picture of your student or report card. 
+            For me the verification process took ~5 minutes but this may differ.</p>
+
+            <a href="https://education.github.com/pack">Click here to get started! <i class="fa fa-github"></i></a>
+
+        </article>
+
+
+
+        <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="../../user/nathan">Nathan Coulas</a>
+                <small class="text-muted">{{ post.date }}</small>
+        
+              <h2><a class="article-title">Schedule</a></h2>
+              <p class="article-content">This is our complete schedule for the entire event as it will start today, June 5th and winners will be announced on the 8th.</p>
+              <div id="schedule" class="d-flex flex-column align-items-center justify-content-center">
+                <div class=" px-4 col-12">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <span>
+                        6:00 PM June 5th - 
+                      </span>
+                      <span>
+                        The Event Begins and Submission Boxes are Open
+                      </span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>
+                        6:00 PM June 7th - 
+                      </span>
+                      <span>
+                        Final Submissions Close and Voting for The Winner Begins
+                      </span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>
+                        4:00 PM June 8th - 
+                      </span>
+                      <span>
+                        A day of voting ends.
+                      </span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>
+                        4:00 PM June 8th - 
+                      </span>
+                      <span>
+                        Winners are announced and the event officially comes to a close.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+<p></p>
+
+{% endblock content %}

@@ -18,6 +18,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include, re_path
 from django.conf import settings
 from users import views as users_views
+from blog import views as blog_views
 from django.conf.urls.static import static
 from django.conf.urls import url
 
@@ -30,6 +31,7 @@ urlpatterns = [
     re_path(r'^submission/(?P<username>[a-zA-Z0-9]+)/$', users_views.get_submission_page, name="user_submission"), 
     path('mysubmission/', users_views.view_my_submission, name='mysubmission'),
     path('allsubmissions/', users_views.view_all_submissions, name='allsubmissions'),
+    path('info/', blog_views.info, name='info'),
     path('winners/', users_views.winners, name='winners'),
     path('voting/', users_views.voting, name='voting'),
     path('profile/', users_views.profile, name='profile'),
