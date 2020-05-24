@@ -52,7 +52,12 @@ def get_submission_page(request, username):
 
 @login_required
 def view_my_submission(request):
-    if request.method == 'POST' and m.allow_submissions == True:
+    m = MasterControl.objects.get(identifier="MASTER")
+
+    if(m.allow_submissions == False):
+        return render(request, "users/notallowed.html", {'message': "Submissions are no longer allowed. It is time to vote!"})
+
+    if request.method == 'POST':
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
         if p_form.is_valid():
             p_form.save()
