@@ -10,9 +10,10 @@ from django.http import HttpResponse
 
 ###CONTROLLER###
 allowing_new_users = True
-allowing_viewing_submissions = False
+allowing_viewing_submissions = True
 allow_submissions = True
-allow_voting = False
+allow_viewing_winners = False
+allow_voting = allowing_viewing_submissions
 ################
 
 def register(request):
@@ -140,7 +141,7 @@ def voting(request):
 
 @login_required
 def winners(request):
-    if(request.user.profile.hasVoted and request.user.is_staff == False):
+    if(request.user.profile.hasVoted != True and request.user.is_staff == False or allow_viewing_winners == False):
         return redirect('../allsubmissions/')
 
     context = {
