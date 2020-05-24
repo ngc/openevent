@@ -76,6 +76,10 @@ with open(path) as data:
         p.profile.team = Team.objects.get(name=tname)
         p.profile.save()
 
+        p = User.objects.get(username=uname)
+        p.submission.team = p.profile.team
+        p.submission.save()
+
         t = Team.objects.get(name=tname)
         t.users.add(User.objects.get(username=uname))
         t.save()

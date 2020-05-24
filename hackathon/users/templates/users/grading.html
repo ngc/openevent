@@ -6,12 +6,11 @@
 {% if not request.user.profile.hasVoted %}
 <div class="card-deck">
     {% for item in posts %}
-    {% if item.actualSubmission %}
     <a name="{{ item.title }}"></a>
     
         <div class="card">
             <div class="p-2 article-metadata">
-              <a href="../../../../../team/{{ item.author.profile.team.name }}">{{ item.author.profile.team.name }}</a>
+              <a href="../../../../../team/{{ item.author.profile.team.id }}">{{ item.author.profile.team.name }}</a>
               <div>
               <small class="text-muted">Last Updated: {{ item.date }}</small>
             </div>
@@ -30,7 +29,6 @@
         {% if forloop.counter|divisibleby:"1"  %}
             </div><div class="card-deck" style="margin-top: 2%;">
         {% endif %}
-    {% endif %}
     {% endfor %}
 </div>
 

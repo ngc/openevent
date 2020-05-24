@@ -22,6 +22,7 @@ class Submission(models.Model):
     content = models.TextField(default="Nothing has been written about this submission yet....")
     date = models.DateTimeField(auto_now=True)
     author = models.OneToOneField(User, on_delete = models.CASCADE)
+    team = models.ForeignKey(Team, on_delete = models.CASCADE, blank=True, null=True)
     Main_Link = models.CharField(max_length=100, default='https://www.google.com/',)
     label_Main_Link = models.CharField(max_length=26, default='Main',)
     Link2 = models.CharField(max_length=100, default='', blank=True)
@@ -66,7 +67,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         Vote.objects.create(user=instance)
         #Editing default data with dynamic details
         instance.profile.submission = instance.submission
-        instance.submission.title = "Submission " + GenRandom(9) 
+        instance.submission.title = instance.get_short_name() + "'s Submission " + GenRandom(9) 
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, created, instance, **kwargs):

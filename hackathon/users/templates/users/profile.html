@@ -7,14 +7,19 @@
         <p class="font-weight-bold">Team: <a class="font-weight-bold" href="../../../team/{{ profile.team.id }}">{{ profile.team.name }}</a></p>
         <p>{{ profile.bio }}</p>
 
+        {% if request.user.id == profile.user.id %}
+        <a href="../../../../../../changepassword">Update Password</a>
+        {% endif %}    
+
     </div>
+
 
     {% if p_form %}
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
             <fieldset class = "form-group">
-                <legend class="border-bottom mb-4">Update Profile</legend>
+                <legend class="border-bottom mb-4">Update</legend>
                 {{ p_form|crispy }}
             </fieldset>
             <div class="form-group">

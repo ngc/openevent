@@ -6,15 +6,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from blog import views as blog_views
 from django.http import HttpResponse
+from random import shuffle
+from django.contrib.auth import update_session_auth_hash
+from django.views.decorators.http import require_http_methods
+
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 ###CONTROLLER###
 m = MasterControl.objects.get(identifier="MASTER")
-allowing_new_users = True
-allowing_viewing_submissions = False
-allow_submissions = True
-allow_viewing_winners = False
-allow_voting = allowing_viewing_submissions
 ################
 
 def register(request):
@@ -40,7 +40,7 @@ def view_all_submissions(request):
     m = MasterControl.objects.get(identifier="MASTER")
     if(m.allowing_viewing_submissions == False):
         return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
-    return render(request, 'users/grading.html', {'posts': Submission.objects.all()})
+    return render(request, 'users/grading.html', {'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('?')})
 
 @login_required
 def get_submission_page(request, username):
@@ -114,11 +114,13 @@ def voting(request):
 
     if(request.user.profile.hasVoted):
         return redirect('../allsubmissions/')
-
+    
     if request.method == 'POST':
-        p_form = VoteForm(request.POST, instance=Vote.objects.get(user=User.objects.get(pk=request.user.id)))
+        p_form = VoteForm(request.POST, instance=Vote.objects.get(user=request.user))
         if p_form.is_valid():
                 p_form.save()
+
+                Vote.objects.get(user=User.objects.get(pk=request.user.id))
                 o = Profile.objects.get(user=User.objects.get(pk=request.user.id))
                 o.hasVoted = True
                 o.save()
@@ -133,7 +135,6 @@ def voting(request):
                 messages.success(request, f'Thank you for voting!')
                 return redirect('../profile')
     else:
-        messages.warning(request, f'Choose exactly 3 submissions.')
         p_form = VoteForm(instance=request.user.vote)
 
     context = {
@@ -154,3 +155,21 @@ def winners(request):
     }
 
     return render(request, 'users/winners.html', context)
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user) 
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'users/profile.html', {
+        'p_form': form,
+        'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id))
+    })

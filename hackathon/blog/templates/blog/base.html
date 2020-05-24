@@ -23,7 +23,12 @@
               <a class="nav-link" href="../../../mysubmission/">My Submission</a>
             </li>
             <li class="nav-item">
+              {% if master.allow_viewing_winners %}
+              <a class="nav-link" href="../../../winners">Winners</a>
+              {% else %}
               <a class="nav-link" href="../../../allsubmissions">All Submissions</a>
+              {% endif %}
+
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../../../info">Information</a>

@@ -46,12 +46,15 @@ class VoteForm(forms.ModelForm):
         model = Vote
         fields = ['CHOICES']
 
+    def clean_CHOICES(self):
+        before = self.cleaned_data['CHOICES'] 
+        if len(before) != 3:
+            raise ValidationError("Choose exactly 3 submissions")
+        else:
+            return before
+
     def __init__(self, *args, **kwargs):
         super(VoteForm, self).__init__(*args, **kwargs)
-        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.filter(actualSubmission=True), widget=forms.CheckboxSelectMultiple())
+        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.all().exclude(actualSubmission=True).exclude(author=self.instance.user).exclude(team=self.instance.user.profile.team), widget=forms.CheckboxSelectMultiple())
 
-    def clean_status(self):
-        if len(self.cleaned_data['CHOICES']) == 3:
-            return self.cleaned_data['CHOICES']
-        else:
-            raise ValidationError("Choose exactly 3 submissions")
+
