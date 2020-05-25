@@ -68,6 +68,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         #Editing default data with dynamic details
         instance.profile.submission = instance.submission
         instance.submission.title = instance.get_short_name() + "'s Submission " + GenRandom(9) 
+        instance.submission.imagelink = "https://techcrunch.com/wp-content/uploads/2015/04/codecode.jpg" 
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, created, instance, **kwargs):

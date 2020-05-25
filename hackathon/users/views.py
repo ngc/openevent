@@ -9,6 +9,13 @@ from django.http import HttpResponse
 from random import shuffle
 from django.contrib.auth import update_session_auth_hash
 from django.views.decorators.http import require_http_methods
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 
 from django.contrib.auth.forms import PasswordChangeForm
 
@@ -35,12 +42,24 @@ def register(request):
         messages.warning(request, f'Account creation failed.')
     return render(request, 'users/register.html', {'form': form})
 
+
+class ViewSubmissions(ListView):
+    def dispatch(self, request, *args, **kwargs):
+        m = MasterControl.objects.get(identifier="MASTER")
+        if (m.allowing_viewing_submissions == False):
+            return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
+        return super(ViewSubmissions, self).dispatch(request, *args, **kwargs)
+
+    model = Submission
+    template_name = "users/grading.html"
+    context_object_name = "posts"
+    ordering = ['Score']
+    paginate_by = 5
+
+
 @login_required
 def view_all_submissions(request):
-    m = MasterControl.objects.get(identifier="MASTER")
-    if(m.allowing_viewing_submissions == False):
-        return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
-    return render(request, 'users/grading.html', {'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('?')})
+    return render(request, 'users/grading.html', {'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('?')}) ###DEBUG
 
 @login_required
 def get_submission_page(request, username):
@@ -54,15 +73,14 @@ def get_submission_page(request, username):
 def view_my_submission(request):
     m = MasterControl.objects.get(identifier="MASTER")
 
-    if(m.allow_submissions == False):
-        return render(request, "users/notallowed.html", {'message': "Submissions are no longer allowed. It is time to vote!"})
-
     if request.method == 'POST':
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
         if p_form.is_valid():
             p_form.save()
-            messages.success(request, f'Update successful.')
+            messages.success(request, f'Update successful.' + str(m.allow_submissions))
             return redirect('../mysubmission')
+        else:
+            messages.warning(request, f'Submission not allowed' + str(m.allow_submissions))
     else:
         p_form = SubmissionUpdateForm(instance=Submission.objects.get(author=request.user))
 
@@ -85,14 +103,14 @@ def get_team(request, teamid):
         if p_form.is_valid():
             p_form.save()
             messages.success(request, f'Update successful.')
-            return redirect('../../team/' + teamobject.name + "/")
+            return redirect('../../team/' + str(teamobject.id) + "/")
     else:
-        p_form = TeamUpdateForm(request.POST, instance=teamobject)
+        p_form = TeamUpdateForm(instance=teamobject)
 
-    if(teamid == request.user.profile.team.id):
+    if(teamobject == request.user.profile.team):
         return render(request, 'users/team.html', {'team': teamobject, 'p_form': p_form})
     else:
-        return render(request, 'users/team.html', {'team': teamobject,})
+        return render(request, 'users/team.html', {'team': teamobject})
 
 @login_required
 def profile(request):

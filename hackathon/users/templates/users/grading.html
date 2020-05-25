@@ -3,6 +3,7 @@
 {% block content %}
 
 <div>
+  <small class="text-muted">Voting will be on the final page.</small>
 {% if not request.user.profile.hasVoted %}
 <div class="card-deck">
     {% for item in posts %}
@@ -18,7 +19,7 @@
             <img class="card-img-top" src="{{ item.imagelink }}" alt="{{ item.title }}">
             <div class="card-body">
               <h5 class="card-title">{{ item.title }}</h5>
-              <p class="card-text">{{ item.content }}</p>
+              <p class="card-text">{{ item.content|truncatewords:20 }}</p>
               <a href="../../../../../submission/{{ item.author }}" class="btn btn-primary"><i class="fas fa-link"></i>      Visit</a>
             </div>
             <div class="card-footer">
@@ -30,10 +31,35 @@
             </div><div class="card-deck" style="margin-top: 2%;">
         {% endif %}
     {% endfor %}
+
+    <div style="margin-left: 2%;">
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+      {% else %}
+      <div>
+      <button onclick="VoteFunc()" style="margin-bottom: 4%;" href="#" class="btn btn-lg btn-success">Cast Your Vote</button>
+      </div>
+      {% endif %}
+
+    {% endif %}
+  </div>
 </div>
 
-
-<button onclick="VoteFunc()" style="margin-bottom: 2%;" href="#" class="btn btn-lg btn-success">Cast Your Vote</button>
 {% else %}
 <h1>Thank you for Voting!</h1>
 <small class="text-muted">Winners will be announced tomorrow at 6:00 PM.</small>

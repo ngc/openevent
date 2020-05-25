@@ -55,6 +55,6 @@ class VoteForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(VoteForm, self).__init__(*args, **kwargs)
-        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.all().exclude(actualSubmission=True).exclude(author=self.instance.user).exclude(team=self.instance.user.profile.team), widget=forms.CheckboxSelectMultiple())
+        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.all().exclude(actualSubmission=False).exclude(author=self.instance.user).exclude(team=self.instance.user.profile.team), widget=forms.CheckboxSelectMultiple())
 
 
