@@ -51,15 +51,12 @@ class ViewSubmissions(ListView):
         return super(ViewSubmissions, self).dispatch(request, *args, **kwargs)
 
     model = Submission
+    queryset = Submission.objects.all().exclude(actualSubmission=False)
     template_name = "users/grading.html"
     context_object_name = "posts"
     ordering = ['Score']
     paginate_by = 5
 
-
-@login_required
-def view_all_submissions(request):
-    return render(request, 'users/grading.html', {'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('?')}) ###DEBUG
 
 @login_required
 def get_submission_page(request, username):
@@ -77,10 +74,10 @@ def view_my_submission(request):
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
         if p_form.is_valid():
             p_form.save()
-            messages.success(request, f'Update successful.' + str(m.allow_submissions))
+            messages.success(request, f'Update successful.')
             return redirect('../mysubmission')
         else:
-            messages.warning(request, f'Submission not allowed' + str(m.allow_submissions))
+            messages.warning(request, f'Submission not allowed')
     else:
         p_form = SubmissionUpdateForm(instance=Submission.objects.get(author=request.user))
 
