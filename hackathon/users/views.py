@@ -69,6 +69,8 @@ def get_submission_page(request, username):
 @login_required
 def view_my_submission(request):
     m = MasterControl.objects.get(identifier="MASTER")
+    if(m.allow_submissions == False):
+        return render(request, "users/notallowed.html", {'message': "Submissions are not allowed at this time."})
 
     if request.method == 'POST':
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
@@ -95,6 +97,8 @@ def get_user_profile(request, username):
 
 def get_team(request, teamid):
     teamobject = Team.objects.get(id=teamid)
+    if(teamobject.users.all().count() == 1):
+        return redirect("../../../../../user/" + str(teamobject.users.all()[0].username))
     if request.method == 'POST':
         p_form = TeamUpdateForm(request.POST, instance=teamobject)
         if p_form.is_valid():

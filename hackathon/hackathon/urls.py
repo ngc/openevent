@@ -21,6 +21,7 @@ from users import views as users_views
 from blog import views as blog_views
 from django.conf.urls.static import static
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 
 from users.views import ViewSubmissions
 
@@ -32,7 +33,7 @@ urlpatterns = [
     re_path(r'^team/(?P<teamid>[\w\s]+)/$', users_views.get_team, name="team"), 
     re_path(r'^submission/(?P<username>[a-zA-Z0-9]+)/$', users_views.get_submission_page, name="user_submission"), 
     path('mysubmission/', users_views.view_my_submission, name='mysubmission'),
-    path('allsubmissions/', ViewSubmissions.as_view(), name='allsubmissions'),
+    path('allsubmissions/', login_required(ViewSubmissions.as_view()), name='allsubmissions'),
     path('info/', blog_views.info, name='info'),
     path('winners/', users_views.winners, name='winners'),
     path('voting/', users_views.voting, name='voting'),

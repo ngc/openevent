@@ -27,7 +27,7 @@ def genPassword(length=6):
     password = ''.join(passwordList)
     return password
 
-path = "C:/Users/Nathan/Desktop/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (2).csv"
+path = "C:/Users/Nathan/Downloads/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (7).csv"
 
 #Team Handler
 teams = []
@@ -37,11 +37,9 @@ with open(path) as data:
         if(row['TIME'] == ""): continue
         if(row['FIRST NAME'].replace(" ", "") + " " + row['LAST NAME'].replace(" ", "") not in teams):
             p = Team(
-                name = row['FIRST NAME'].replace(" ", "") + row['LAST NAME'].replace(" ", "")
+                name = row['FIRST NAME'].replace(" ", "") + " " + row['LAST NAME'].replace(" ", "")
             )
             p.save() 
-
-
 
 
 with open(path) as data:
@@ -54,10 +52,9 @@ with open(path) as data:
         print("Username: " + uname + " | Password: " + pword)
         usernames.append(uname)
         if(row['TEAM'] == ""):
-            tname = row['FIRST NAME'].replace(" ", "") + row['LAST NAME'].replace(" ", "")
+            tname = row['FIRST NAME'].replace(" ", "") + " " + row['LAST NAME'].replace(" ", "")
         else:
-            tname = row['TEAM']
-        tname = tname.replace(" ", "")
+            tname = row['TEAM'].strip()
 
         p = User.objects.create_user(
             username = uname,
