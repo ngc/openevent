@@ -7,6 +7,8 @@ import string
 import pandas as pd
 
 usernames = []
+emails = []
+firstnames = []
 pw = []
 
 def GenRandom(length):
@@ -27,7 +29,7 @@ def genPassword(length=6):
     password = ''.join(passwordList)
     return password
 
-path = "C:/Users/Nathan/Downloads/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (7).csv"
+path = "C:/Users/Nathan/Downloads/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (8).csv"
 
 #Team Handler
 teams = []
@@ -48,6 +50,8 @@ with open(path) as data:
         if(row['TIME'] == ""): continue
         pword = genPassword()
         pw.append(pword)
+        emails.append(row['EMAIL'].strip())
+        firstnames.append(row['FIRST NAME'].strip())
         uname = row['FIRST NAME'].replace(" ", "") + str(GenRandom(3))
         print("Username: " + uname + " | Password: " + pword)
         usernames.append(uname)
@@ -59,9 +63,9 @@ with open(path) as data:
         p = User.objects.create_user(
             username = uname,
             password = pword,
-            first_name = row['FIRST NAME'].replace(" ", ""),
-            last_name = row['LAST NAME'].replace(" ", ""),
-            email = row['EMAIL'].replace(" ", ""),   
+            first_name = row['FIRST NAME'].strip(),
+            last_name = row['LAST NAME'].strip(),
+            email = row['EMAIL'].strip(),   
         )
         p.save()
 
@@ -82,8 +86,8 @@ with open(path) as data:
         t.save()
 
 
-zl = list(zip(usernames, pw))
-df = pd.DataFrame(zl, columns=["Username", "Password"])
+zl = list(zip(usernames, pw, emails, firstnames))
+df = pd.DataFrame(zl, columns=["Username", "Password", "Email", "Firstname"])
 df.to_csv('C:/Users/Nathan/Desktop/logs.csv', index=False)
 
 exit()
