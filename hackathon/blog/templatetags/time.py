@@ -15,6 +15,10 @@ import math
 
 register = template.Library() #Declare register for decorator 
 
+@register.simple_tag(name='get_event_name')
+def get_event_name():
+    return MasterControl.objects.get(identifier="MASTER").event_name
+
 @register.simple_tag(name='get_time_until')
 def get_time_until(type):
     #Example Date: "January 1, 2030 00:00:00"
@@ -26,3 +30,4 @@ def get_time_until(type):
     if(type == "H"): return math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     if(type == "M"): return math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
     if(type == "S"): return math.floor((distance % (1000 * 60)) / 1000)
+    if(type == "DATE"): return MasterControl.objects.get(identifier="MASTER").timer_date

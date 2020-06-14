@@ -23,8 +23,10 @@ class Team_display(admin.ModelAdmin):
     list_display = ['name']
     readonly_fields = ('id',)
 
-class VoteAdmin(admin.ModelAdmin):
+class MasterControlAdmin(admin.ModelAdmin):
+        exclude = ("identifier",)
 
+class VoteAdmin(admin.ModelAdmin):
     def CHOICESS(self, obj):
         return obj.CHOICES.count()
 
@@ -36,6 +38,6 @@ class SubmissionAdmin(admin.ModelAdmin):
 admin.site.unregister(User)
 admin.site.register(Team, Team_display)
 admin.site.register(User, UserAdmin)
-admin.site.register(MasterControl)
+admin.site.register(MasterControl, MasterControlAdmin)
 admin.site.register(Vote, VoteAdmin)
 admin.site.register(Submission, SubmissionAdmin)

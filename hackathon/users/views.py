@@ -122,7 +122,8 @@ def profile(request):
     
     context = {
     'p_form': p_form,
-    'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id))
+    'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id)),
+    'page_title': request.user.username
     }
     return render(request, 'users/profile.html', context)
 

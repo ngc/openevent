@@ -59,7 +59,10 @@ class MasterControl(models.Model):
     timer_date = models.CharField(max_length=100, default="January 1, 2030 00:00:00")
     timer_message = models.CharField(max_length=100, default="Event starts on January 1st, 2030!")
     youtube_embed_code = models.CharField(max_length=100, default="S7SLep244ss")
+    event_name = models.CharField(max_length=20, default="MississaugaHacks2020")
     identifier = models.TextField(blank=False, default='MASTER', null=True)
+    def __str__(self):
+        return self.identifier
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
