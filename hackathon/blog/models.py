@@ -13,4 +13,3 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
-    imagelink.short_description = 'To host images, upload them to Imgur at https://imgur.com/'

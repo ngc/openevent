@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from blog import views as blog_views
 from django.http import HttpResponse
 from users.models import MasterControl
+from django import template
 
 # Create your views here.
 @login_required

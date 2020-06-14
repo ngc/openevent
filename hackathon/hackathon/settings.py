@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['test.mssoj.ca', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'users.apps.UsersConfig',
     'blog.apps.BlogConfig',
     'crispy_forms',

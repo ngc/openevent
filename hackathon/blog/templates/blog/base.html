@@ -1,4 +1,5 @@
 {% load static %}
+{% load time %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,22 +55,16 @@
               <li class="nav-item"></li>
               <a class="nav-link font-weight-bold" href="../../../../logout">Log Out</a>
             </li>
-
             {% if user.is_superuser %}
             <li class="nav-item">
             <a class="nav-link font-weight-bold text-danger" href="../../../../admin">Admin Panel</a>
           </li>
             {% endif %}
-            
-
               {% else %}
               <a class="nav-link font-weight-bold" href="../../../../login">Login</a>
             </li>
               {% endif %}
-            
           </ul>
-          
-
         </div>
       </nav>
         
@@ -89,20 +84,21 @@
                   <table class="text-muted font-weight-bold table table-bordered">
                     <thead>
                     <tr>
-                    <td align="center" scope="col" id="days">88d</td>
-                    <td align="center" scope="col" id="hours">88h</00dtd>
-                    <td align="center" scope="col" id="minutes">88m</td>
-                    <td align="center" scope="col" id="seconds">88s</td>
+                    <td align="center" scope="col" id="days">{% get_time_until "D" %}d</td>
+                    <td align="center" scope="col" id="hours">{% get_time_until "H" %}h</00dtd>
+                    <td align="center" scope="col" id="minutes">{% get_time_until "M" %}m</td>
+                    <td align="center" scope="col" id="seconds">{% get_time_until "S" %}s</td>
                     </tr>
                     </thead>
                     </table>
-              <h6 align="center" class="text-muted">Platform Shutdown. Thank You!</h4>
+              <h6 align="center" class="text-muted">{{ master.timer_message }}</h4>
+                
             </div>
 
             <div class="content-section">
               <h3>Stream</h3>
               <p class='text-muted'>
-                <iframe width="100% important!" height="180" src="https://www.youtube-nocookie.com/embed/CUnWxw5dukM?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="100% important!" height="180" src="https://www.youtube-nocookie.com/embed/{{ master.youtube_embed_code }}?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 
               </p>
             </div>
@@ -112,7 +108,6 @@
       </main>
 
       <footer class="footer">
-        
         <div class="container text-center">
           <small style="color:grey">&copy MississaugaHacks2020</small>
             <a href="https://www.instagram.com/mississaugahacks.2020"><small style="color:grey" class="mx-3 fa fa-lg fa-instagram pull-right">  </small></a>
@@ -120,12 +115,10 @@
             <a href="https://discord.gg/RxvEMQj"><small style="color:grey" class="mx-3 fab fa-lg fa-discord pull-right">  </small></a>
         </div>
     </footer>
-
     </body>
 
-
     <script>
-      var countDownDate = new Date("June 10, 2020 00:00:00").getTime();
+      var countDownDate = new Date("{{ master.timer_date }}").getTime();
 
       var x = setInterval(function() {
 

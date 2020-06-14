@@ -56,6 +56,9 @@ class MasterControl(models.Model):
     allow_submissions = models.BooleanField(default=True)
     allow_viewing_winners = models.BooleanField(default=False)
     allow_voting = models.BooleanField(default=False)
+    timer_date = models.CharField(max_length=100, default="January 1, 2030 00:00:00")
+    timer_message = models.CharField(max_length=100, default="Event starts on January 1st, 2030!")
+    youtube_embed_code = models.CharField(max_length=100, default="S7SLep244ss")
     identifier = models.TextField(blank=False, default='MASTER', null=True)
 
 @receiver(post_save, sender=User)
