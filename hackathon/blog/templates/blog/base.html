@@ -6,6 +6,17 @@
         <link rel="stylesheet" type="text/css" href="{% static 'blog\css\custom.css' %}">
         <script src="https://kit.fontawesome.com/057ac500b7.js" crossorigin="anonymous"></script>
         <title>MississaugaHacks2020</title>
+
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162886207-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-162886207-4');
+    </script>
+
     </head>
     <body>
 
@@ -85,13 +96,13 @@
                     </tr>
                     </thead>
                     </table>
-              <h6 align="center" class="text-muted">Starts June 5, 2020 4:00 PM</h4>
+              <h6 align="center" class="text-muted">Platform Shutdown. Thank You!</h4>
             </div>
 
             <div class="content-section">
               <h3>Stream</h3>
               <p class='text-muted'>
-                <iframe width="100% important!" height="180" src="https://www.youtube-nocookie.com/embed/5QbM7Vsz3kg?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="100% important!" height="180" src="https://www.youtube-nocookie.com/embed/CUnWxw5dukM?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 
               </p>
             </div>
@@ -114,31 +125,24 @@
 
 
     <script>
-      // Set the date we're counting down to
-      var countDownDate = new Date("June 5, 2020 16:00:00").getTime();
-      
-      // Update the count down every 1 second
+      var countDownDate = new Date("June 10, 2020 00:00:00").getTime();
+
       var x = setInterval(function() {
-      
-        // Get today's date and time
+
         var now = new Date().getTime();
       
-        // Find the distance between now and the count down date
         var distance = countDownDate - now;
-      
-        // Time calculations for days, hours, minutes and seconds
+
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
       
-        // Display the result in the element with id="demo"
         document.getElementById("days").innerHTML = days + "d";
         document.getElementById("hours").innerHTML = hours + "h";
         document.getElementById("minutes").innerHTML = minutes + "m";
         document.getElementById("seconds").innerHTML = seconds + "s";
       
-        // If the count down is finished, write some text
         if (distance < 0) {
           clearInterval(x);
           document.getElementById("demo").innerHTML = "EXPIRED";

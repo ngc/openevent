@@ -19,11 +19,6 @@ from django.views.generic import (
 
 from django.contrib.auth.forms import PasswordChangeForm
 
-
-###CONTROLLER###
-m = MasterControl.objects.get(identifier="MASTER")
-################
-
 def register(request):
     m = MasterControl.objects.get(identifier="MASTER")
     if request.method == 'POST' and m.allowing_new_users:
@@ -54,15 +49,16 @@ class ViewSubmissions(ListView):
     queryset = Submission.objects.all().exclude(actualSubmission=False)
     template_name = "users/grading.html"
     context_object_name = "posts"
-    ordering = ['Score']
+    ordering = ['-Score']
     paginate_by = 5
 
 
 @login_required
 def get_submission_page(request, username):
     m = MasterControl.objects.get(identifier="MASTER")
-    if(m.allowing_viewing_submissions == False):
-        return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
+    if(request.user.is_superuser != True):
+        if(m.allowing_viewing_submissions == False):
+            return render(request, "users/notallowed.html", {'message': "Hold on! All submissions will be public at 6:00 PM on June 7th"})
 
     return render(request, 'users/mysubmission.html', {'post': Submission.objects.get(author=User.objects.get(username=username))})
 
@@ -171,8 +167,9 @@ def voting(request):
 @login_required
 def winners(request):
     m = MasterControl.objects.get(identifier="MASTER")
-    if(request.user.profile.hasVoted != True and request.user.is_staff == False or m.allow_viewing_winners == False):
-        return redirect('../allsubmissions/')
+    if(request.user.is_superuser != True):
+        if(m.allow_viewing_winners == False):
+            return redirect('../allsubmissions/')
 
     context = {
     'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score').reverse()

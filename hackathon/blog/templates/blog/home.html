@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %}
 {% block content %}
     {% for post in posts %}
+    {% if post.title != "ARCHIVE" %}
     <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
@@ -15,5 +16,6 @@
           {% endif %}
         </div>
       </article>
+      {% endif %}
     {% endfor %}
 {% endblock content %}
