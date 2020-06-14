@@ -29,7 +29,11 @@ def genPassword(length=6):
     password = ''.join(passwordList)
     return password
 
+<<<<<<< HEAD
 path = "/root/hackathonserver/spreadsheets/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (9).csv"
+=======
+path = "C:/Users/Nathan/Downloads/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (8).csv"
+>>>>>>> c29da9e8d905384842bccddbb380527d7c036f20
 
 #Team Handler
 teams = []
