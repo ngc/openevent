@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import BlogPost
+from .models import BlogPost, InformationPost
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -13,10 +13,14 @@ from django import template
 @login_required
 def home(request):
     context = {
-        'posts': BlogPost.objects.all(),
+        'posts': BlogPost.objects.all().order_by('-date'),
         'master': MasterControl.objects.get(identifier="MASTER")
     }
     return render(request, 'blog/home.html', context)
 
 def info(request):
-    return render(request, 'blog/info.html')
+    context = {
+        'posts': InformationPost.objects.all().order_by('-id'),
+        'master': MasterControl.objects.get(identifier="MASTER")
+    }
+    return render(request, 'blog/info.html', context)

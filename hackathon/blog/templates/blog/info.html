@@ -1,58 +1,24 @@
 {% extends "blog/base.html" %}
 {% block content %}
-
-<article class="media content-section">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="../../user/Nathan347">Nathan Coulas</a>
-        <small class="text-muted">{{ post.date }}</small>
-
-      <h2><a class="article-title">Welcome to MississaugaHacks2020!</a></h2>
-      <p style="margin-bottom: 4%;"class="article-content">Thank you for signing up for MississaugaHacks2020! This website will serve as the platform we use throughout the event where we will upload our submissions as well as vote on the winners.</p>
-      <p style="margin-bottom: 4%;"class="article-content">This page will be a repository of useful links for participants to visit including things such as free software and contact links.</p>
-    </article>
-
-<article class="media content-section">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="../../user/Nathan347">Nathan Coulas</a>
-        <small class="text-muted">{{ post.date }}</small>
-
-      <h2><a class="article-title"><i class="fab fa-discord"></i> Discord Server</a></h2>
-      <p style="margin-bottom: 4%;"class="article-content">If you haven't already, make sure to join our Discord server as we can immediately give you help or answer any questions you have on there.</p>
-      <iframe align="right" src="https://discord.com/widget?id=712770263745298514&theme=dark" width="700" height="400" allowtransparency="true" frameborder="0"></iframe>
-    </article>
-
+    {% for post in posts %}
+    {% if post.title != "ARCHIVE" %}
     <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
-            <a class="mr-2" href="../../user/Nathan347">Nathan Coulas</a>
+            <a class="mr-2" href="user/{{ post.author }}">{{ post.author.get_full_name }}</a>
             <small class="text-muted">{{ post.date }}</small>
-    
-          <h2><a class="article-title">GitHub Student Developer Pack</a></h2>
-          <img src="https://github.blog/wp-content/uploads/2014/10/4b0317bc-4599-11e4-8bc3-0ca4dd5223e8.png?fit=2284%2C889" style="max-width: 100%;">
-          <p style="margin-bottom: 4%;"class="article-content">GitHub currently offers a service for high school and university students called the GitHub Education Pack. With it you are given access to tons of expensive software for free, such as Unity Pro and Bootstrap Studio. </p> 
-          <p>You can also use it to get free hosting through DigitalOcean or to get a free domain which is perfect if you're making a website for your submission. 
-            To get the GitHub Education Pack you have to prove you are a student by filling out a form with GitHub and sending a picture of your student or report card. 
-            For me the verification process took ~5 minutes but this may differ.</p>
-
-            <a href="https://education.github.com/pack">Click here to get started! <i class="fa fa-github"></i></a>
-
-        </article>
-
-
-
-        <article class="media content-section">
-            <div class="media-body">
-              <div class="article-metadata">
-                <a class="mr-2" href="../../user/Nathan347">Nathan Coulas</a>
-                <small class="text-muted">{{ post.date }}</small>
-        
-              <h2><a class="article-title">Schedule</a></h2>
-              <img src="https://i.imgur.com/23w5gCO.png" style="max-width: 100%;">
-              
-
-            </article>
-<p></p>
-
+          </div>
+          <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+          <img class="article-content" style="max-width: 100%;" src="{{ post.imagelink }}">
+          {% autoescape off %}
+          {{ post.HTML_content }}
+          {% endautoescape %}
+          <p class="article-content">{{ post.content }}</p>
+          {% if user.is_superuser %}
+          <a role="button" style="margin-bottom: 2px;" href="../../../../admin/blog/blogpost/" class="article-content btn btn-success">Edit</a>
+          {% endif %}
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
 {% endblock content %}
