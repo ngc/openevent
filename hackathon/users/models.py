@@ -6,9 +6,12 @@ from django.utils import timezone
 import random
 import string
 
-
 def GenRandom(length):
-    letters = string.ascii_letters + string.digits
+    letters = string.digits + string.ascii_letters
+    return ''.join(random.choice(letters) for i in range(length))
+
+def GenRandomUser(length):
+    letters = string.digits
     return ''.join(random.choice(letters) for i in range(length))
 
 class Team(models.Model):
@@ -45,6 +48,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=False, default='Nothing has been written here yet...', null=True)
     submission = models.OneToOneField(Submission, blank=True, null=True, on_delete=models.CASCADE)
     hasVoted = models.BooleanField(default=False)
+    teamleader_username = models.CharField(max_length=100, blank=True, default='', null=True)
 
 class Vote(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
@@ -56,6 +60,12 @@ class MasterControl(models.Model):
     allow_submissions = models.BooleanField(default=True)
     allow_viewing_winners = models.BooleanField(default=False)
     allow_voting = models.BooleanField(default=False)
+    allow_viewing_platform = models.BooleanField(default=False)
+    platform_not_allowed_redirect = models.CharField(default="https://www.google.com/", max_length=300)
+    submissions_not_allowed_message = models.CharField(default="Hold on! Submissions will be allowed at 6:00 PM", max_length=300)
+    viewing_submissions_not_allowed_message = models.CharField(default="Hold on! Viewing Submissions will be allowed at 6:00 PM", max_length=300)
+    voting_not_allowed_message = models.CharField(default="Hold on! Voting will be allowed at 6:00 PM", max_length=300)
+    winners_not_allowed_message = models.CharField(default="Hold on! Winners will be allowed at 6:00 PM", max_length=300)
     timer_date = models.CharField(max_length=100, default="January 1, 2030 00:00:00")
     timer_message = models.CharField(max_length=100, default="Event starts on January 1st, 2030!")
     youtube_embed_code = models.CharField(max_length=100, default="S7SLep244ss")
@@ -79,6 +89,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, created, instance, **kwargs):
     if created:
+        instance.username = instance.first_name.strip() + str(GenRandomUser(3))
+        instance.save()
         instance.profile.save()
         instance.submission.save()
         instance.vote.save()

@@ -6,6 +6,17 @@ import random
 import string
 import pandas as pd
 
+# This script generates the users from the sign up form you made (Google Form)
+# Steps:
+# 1. Remove any wrong or conflicting data from your form
+#       - All team leader names are case sensitive 
+#       - The team leader specified in the row MUST have signed up, if they didn't then clear the cell
+#       - Team leader names must match the name that the team leader used when signing up themselves
+# 2. Download your form submissions as a csv file with a comma as the delimiter 
+# 3. Enter in the specified paths within the script for both the location on the server's system to the input form data, as well as the exported generated user data
+# 4. Run the script by executing 'python3 manage.py shell' then enter 'exec(open('users/data.py').read())' 
+
+
 usernames = []
 emails = []
 firstnames = []
@@ -29,11 +40,7 @@ def genPassword(length=6):
     password = ''.join(passwordList)
     return password
 
-<<<<<<< HEAD
-path = "/root/hackathonserver/spreadsheets/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (9).csv"
-=======
-path = "C:/Users/Nathan/Downloads/MississaugaHacks 2020 Signup (Responses) - Form Responses 1 (8).csv"
->>>>>>> c29da9e8d905384842bccddbb380527d7c036f20
+path = "" #Valid path to the sign up's exported csv
 
 #Team Handler
 teams = []
@@ -92,7 +99,12 @@ with open(path) as data:
 
 zl = list(zip(usernames, pw, emails, firstnames))
 df = pd.DataFrame(zl, columns=["Username", "Password", "Email", "Firstname"])
-df.to_csv('/root/hackathonserver/spreadsheets/logs.csv', index=False)
+df.to_csv('', index=False) 
+
+#Use a valid directory for storing your csv with usernames and passwords to be emailed out.
+#For security reasons you should urge your users to change these details when they have access to their accounts
+#You should also make a copy of this csv file and store it locally on your own machine and delete it from the server
 
 exit()
 #exec(open('users/data.py').read())
+#Execution Command

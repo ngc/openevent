@@ -88,10 +88,10 @@
                   <table class="text-muted font-weight-bold table table-bordered">
                     <thead>
                     <tr>
-                    <td align="center" scope="col" id="days">{% get_time_until "D" %}d</td>
-                    <td align="center" scope="col" id="hours">{% get_time_until "H" %}h</00dtd>
-                    <td align="center" scope="col" id="minutes">{% get_time_until "M" %}m</td>
-                    <td align="center" scope="col" id="seconds">{% get_time_until "S" %}s</td>
+                    <td align="center" scope="col" id="days"></td>
+                    <td align="center" scope="col" id="hours"></00dtd>
+                    <td align="center" scope="col" id="minutes"></td>
+                    <td align="center" scope="col" id="seconds"></td>
                     </tr>
                     </thead>
                     </table>
@@ -123,6 +123,20 @@
 
     <script>
       var countDownDate = new Date("{% get_time_until "DATE" %}").getTime();
+
+      var now = new Date().getTime();
+      
+      var distance = countDownDate - now;
+
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+      document.getElementById("days").innerHTML = days + "d";
+      document.getElementById("hours").innerHTML = hours + "h";
+      document.getElementById("minutes").innerHTML = minutes + "m";
+      document.getElementById("seconds").innerHTML = seconds + "s";
 
       var x = setInterval(function() {
 

@@ -10,6 +10,34 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email', 'first_name', 'last_name', 'password1', 'password2']
+        labels = {
+            "firstname": "Firstname",
+            "lastname": "Lastname",
+        }
+
+class ProfileRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('school', 'teamleader_username')
+        labels = {
+            "teamleader_username": "Team Leader Username",
+        }
+
+    def clean_teamleader_username(self):
+        before = self.cleaned_data['teamleader_username']
+        if(before == None): return ""
+        if(User.objects.get(username = before)):
+            return before
+        else:
+            raise ValidationError("Specified Team Leader Not Found")
+        return before
+
+    def clean_school(self):
+        before = self.cleaned_data['school'] 
+        if(before == None): raise ValidationError("Can't be empty")
+        if("secondary" in before.lower() or "school" in before.lower() or "s.s" in before.lower() or " ss" in before.lower()):
+            raise ValidationError("Do not include 'Secondary School', Example: 'Glenforest' not 'Glenforest Secondary School'")
+        return before.strip()
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
@@ -37,7 +65,7 @@ class SubmissionUpdateForm(forms.ModelForm):
         "label_Link2": "Label for Link 2",
         "label_Link3": "Label for Link 3",
         "label_Link4": "Label for Link 4",
-        "actualSubmission": "Actual Submission",
+        "actualSubmission": "Make Public",
         }
 
 
