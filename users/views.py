@@ -109,6 +109,7 @@ def view_my_submission(request):
     'form': p_form,
     'post': Submission.objects.get(author=request.user),
     'page_title': request.user.profile.submission.title,
+    'master': m,
     }
     return render(request, 'users/mysubmission.html', context)
 
@@ -151,7 +152,8 @@ def profile(request, special = False):
     context = {
     'p_form': p_form,
     'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id)),
-    'page_title': request.user.username
+    'page_title': request.user.username,
+    'master': m,
     }
     return render(request, 'users/profile.html', context)
 
@@ -189,6 +191,7 @@ def voting(request):
     'p_form': p_form,
     'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id)),
     'page_title': "Voting",
+    'master': m,
     }
 
     return render(request, 'users/voting.html', context)
@@ -201,7 +204,8 @@ def winners(request):
             return redirect('../allsubmissions/')
 
     context = {
-    'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score').reverse()
+    'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score').reverse(),
+    'master': m,
     }
 
     return render(request, 'users/winners.html', context)
