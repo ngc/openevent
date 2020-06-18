@@ -115,11 +115,13 @@ def view_my_submission(request):
 
 @login_required
 def get_user_profile(request, username):
+    m = MasterControl.objects.get(identifier="MASTER")
     if(request.user.username == username): return profile(request, True)
     p = Profile.objects.get(user=User.objects.get(username=username))
     return render(request, 'users/profile.html', {"profile": p, 'master': m})
 
 def get_team(request, teamid):
+    m = MasterControl.objects.get(identifier="MASTER")
     teamobject = Team.objects.get(id=teamid)
     if(teamobject.users.all().count() == 1):
         return redirect("../../../../../user/" + str(teamobject.users.all()[0].username))
@@ -139,6 +141,7 @@ def get_team(request, teamid):
 
 @login_required
 def profile(request, special = False):
+    m = MasterControl.objects.get(identifier="MASTER")
     if(special == False): return redirect('../../user/' + request.user.username)
     if request.method == 'POST':
         p_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
@@ -212,6 +215,7 @@ def winners(request):
 
 @login_required
 def change_password(request):
+    m = MasterControl.objects.get(identifier="MASTER")
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
