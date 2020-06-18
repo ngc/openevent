@@ -61,14 +61,14 @@ def register(request):
     if(m.allowing_new_users == False):
         messages.warning(request, f'Not accepting new users.')
 
-    return render(request, 'users/register.html', {'form': form, 'profile_form': profile_form, 'page_title': "Register",})
+    return render(request, 'users/register.html', {'form': form, 'profile_form': profile_form, 'page_title': "Register", 'master': m})
 
 
 class ViewSubmissions(ListView):
     def dispatch(self, request, *args, **kwargs):
         m = MasterControl.objects.get(identifier="MASTER")
         if (m.allowing_viewing_submissions == False):
-            return render(request, "users/notallowed.html", {'message':  m.viewing_submissions_not_allowed_message})
+            return render(request, "users/notallowed.html", {'message':  m.viewing_submissions_not_allowed_message, 'master': m})
         return super(ViewSubmissions, self).dispatch(request, *args, **kwargs)
 
     model = Submission
@@ -84,15 +84,15 @@ def get_submission_page(request, username):
     m = MasterControl.objects.get(identifier="MASTER")
     if(request.user.is_superuser != True):
         if(m.allowing_viewing_submissions == False):
-            return render(request, "users/notallowed.html", {'message': m.viewing_submissions_not_allowed_message})
+            return render(request, "users/notallowed.html", {'message': m.viewing_submissions_not_allowed_message, 'master': m})
 
-    return render(request, 'users/mysubmission.html', {'post': Submission.objects.get(author=User.objects.get(username=username)),})
+    return render(request, 'users/mysubmission.html', {'post': Submission.objects.get(author=User.objects.get(username=username)), 'master': m})
 
 @login_required
 def view_my_submission(request):
     m = MasterControl.objects.get(identifier="MASTER")
     if(m.allow_submissions == False):
-        return render(request, "users/notallowed.html", {'message': m.submissions_not_allowed_message})
+        return render(request, "users/notallowed.html", {'message': m.submissions_not_allowed_message, 'master': m})
 
     if request.method == 'POST':
         p_form = SubmissionUpdateForm(request.POST, instance=Submission.objects.get(author=request.user))
@@ -109,6 +109,7 @@ def view_my_submission(request):
     'form': p_form,
     'post': Submission.objects.get(author=request.user),
     'page_title': request.user.profile.submission.title,
+    'master': m,
     }
     return render(request, 'users/mysubmission.html', context)
 
@@ -116,7 +117,7 @@ def view_my_submission(request):
 def get_user_profile(request, username):
     if(request.user.username == username): return profile(request, True)
     p = Profile.objects.get(user=User.objects.get(username=username))
-    return render(request, 'users/profile.html', {"profile": p})
+    return render(request, 'users/profile.html', {"profile": p, 'master': m})
 
 def get_team(request, teamid):
     teamobject = Team.objects.get(id=teamid)
@@ -132,9 +133,9 @@ def get_team(request, teamid):
         p_form = TeamUpdateForm(instance=teamobject)
 
     if(teamobject == request.user.profile.team):
-        return render(request, 'users/team.html', {'team': teamobject, 'p_form': p_form, 'page_title': teamobject.name,})
+        return render(request, 'users/team.html', {'team': teamobject, 'p_form': p_form, 'page_title': teamobject.name, 'master': m})
     else:
-        return render(request, 'users/team.html', {'team': teamobject, 'page_title': teamobject.name,})
+        return render(request, 'users/team.html', {'team': teamobject, 'page_title': teamobject.name, 'master': m})
 
 @login_required
 def profile(request, special = False):
@@ -151,7 +152,8 @@ def profile(request, special = False):
     context = {
     'p_form': p_form,
     'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id)),
-    'page_title': request.user.username
+    'page_title': request.user.username,
+    'master': m,
     }
     return render(request, 'users/profile.html', context)
 
@@ -159,7 +161,7 @@ def profile(request, special = False):
 def voting(request):
     m = MasterControl.objects.get(identifier="MASTER")
     if(m.allow_voting == False):
-        return render(request, "users/notallowed.html", {'message': m.voting_not_allowed_message})
+        return render(request, "users/notallowed.html", {'message': m.voting_not_allowed_message, 'master': m})
 
     if(request.user.profile.hasVoted):
         return redirect('../allsubmissions/')
@@ -189,6 +191,7 @@ def voting(request):
     'p_form': p_form,
     'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id)),
     'page_title': "Voting",
+    'master': m,
     }
 
     return render(request, 'users/voting.html', context)
@@ -201,7 +204,8 @@ def winners(request):
             return redirect('../allsubmissions/')
 
     context = {
-    'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score').reverse()
+    'posts': Submission.objects.all().exclude(actualSubmission=False).order_by('Score').reverse(),
+    'master': m,
     }
 
     return render(request, 'users/winners.html', context)
@@ -221,5 +225,6 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'users/profile.html', {
         'p_form': form,
-        'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id))
+        'profile': Profile.objects.get(user=User.objects.get(pk=request.user.id)),
+        'master': m
     })
