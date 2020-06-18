@@ -7,20 +7,10 @@
         <link rel="stylesheet" type="text/css" href="{% static 'blog\css\custom.css' %}">
         <script src="https://kit.fontawesome.com/057ac500b7.js" crossorigin="anonymous"></script>
         {% if page_title %}
-        <title>{% get_event_name %} - {{ page_title }}</title>
+        <title>{{ page_title }} - {% get_event_name %}</title>
         {% else %}
         <title>{% get_event_name %}</title>
         {% endif %}
-
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162886207-4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-162886207-4');
-    </script>
 
     </head>
     <body>
