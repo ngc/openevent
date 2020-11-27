@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="text-center">
+
+    <img style="width: 75%;"src="{% static 'blog\img\SVGLogo.svg' %}">
+    <h4 class="text-muted">{{ message }}</h4>
+
+  </div>
+
+{% endblock content %}

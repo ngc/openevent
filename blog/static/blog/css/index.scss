@@ -1,0 +1,121 @@
+$blue: #191654;
+
+body {
+  background-color: $blue;
+}
+#top {
+  padding: 5rem;
+  padding-bottom: 300px;
+  background-color: white;
+  z-index: -2;
+}
+.wave,
+.shadow-wave {
+  width: 100%;
+  height: auto;
+  fill: $blue;
+  margin: 0;
+  position: relative;
+  top: -500px;
+  z-index: 1000;
+}
+.shadow-wave {
+  position: relative;
+  top: -250px;
+  transform: rotate(-2deg);
+  fill: $blue;
+  z-index: 0;
+}
+button {
+  padding: 0.5rem 1rem;
+  background-color: #259b9b;
+  border-radius: 2rem;
+  border-style: none;
+  color: white;
+  font-weight: bold;
+}
+h1 {
+  color: $blue;
+  font-size: 4rem;
+}
+h3 {
+  color: #fff;
+}
+#top img,
+#desc img {
+  width: 50%;
+  max-width: 600px;
+  height: 50%;
+  // height: auto;
+}
+
+.list-group-item {
+  border-left: 10px solid $blue;
+  margin: 0.5rem 0;
+  span:first-of-type {
+    margin: 0 1rem 0 0;
+  }
+}
+.gradient {
+  background: #43c6ac; /* fallback for old browsers */
+  background: linear-gradient(to bottom, #191654, #43c6ac, #e9e9d3);
+  padding-bottom: 450px;
+  position: relative;
+  top: -500px;
+  > *,
+  footer {
+    padding: 4rem 0;
+  }
+  h2,
+  p {
+    color: white;
+  }
+}
+
+footer svg {
+  width: 60px;
+  height: 60px;
+  margin: 10px 30px;
+  fill: #fff;
+}
+.rounded {
+  border-radius: 2rem !important;
+}
+.countdown {
+  margin: 0 -3rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  /*  border-bottom: 5px solid white;
+  border-top: 5px solid white; */
+  h2,
+  #countdown {
+    font-size: 6rem;
+    font-weight: 700;
+    letter-spacing: 0.8rem;
+  }
+  h2 {
+    color: rgba(255, 255, 255, 0.2);
+  }
+}
+#countdown,
+.countdown-text {
+  display: grid;
+  font-family: monospace;
+  grid-template-columns: repeat(4, 1fr);
+  color: white;
+  width: 50%;
+  margin: auto;
+}
+.countdown-text {
+  font-size: 1.5rem;
+}
+footer {
+  background-color: $blue;
+  position: relative;
+  top: -710px;
+}
+.footer-svg {
+  fill: $blue;
+  transform: rotate(180deg);
+  position: relative;
+  top: -700px;
+}
