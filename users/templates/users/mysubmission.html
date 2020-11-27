@@ -1,0 +1,67 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if form %}
+<div style="margin-bottom: 1%;">
+  <a class="text-muted">Check the "Make Public" box if you are your team's leader, or if you're working alone.</a>
+  <a class="text-muted">Your submission WILL NOT be public otherwise.</a>
+</div>
+{% endif %}
+
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="../../../../team/{{ post.author.profile.team.id }}">{{ post.author.profile.team }}</a>
+            <small class="text-muted">Last Updated: {{ post.date }}</small>
+          </div>
+          <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+          <img class="article-content" src="{{ post.imagelink }}" style="width: 100%;">
+          <p class="article-content">{{ post.content }}</p>
+
+          {% if post.Main_Link %} {# Replace with for loop #}
+          <a role="button" style="margin-bottom: 2px;" href="{{ post.Main_Link }}" class="article-content btn btn-success">{{ post.label_Main_Link }}</a>
+          {% endif %}
+
+          {% if post.Link2 %}
+          <a role="button" style="margin-bottom: 2px;" href="{{ post.Link2 }}" class="article-content btn btn-primary">{{ post.label_Link2 }}</a>
+          {% endif %}
+
+          {% if post.Link3 %}
+          <a role="button" style="margin-bottom: 2px;" href="{{ post.Link3 }}" class="article-content btn btn-warning">{{ post.label_Link3 }}</a>
+          {% endif %}
+
+          {% if post.Link4 %}
+          <a role="button" style="margin-bottom: 2px;" href="{{ post.Link4 }}" class="article-content btn btn-danger">{{ post.label_Link4 }}</a>
+          {% endif %}
+
+        <div>
+          {% if user.is_superuser %}
+          <a role="button" style="margin-bottom: 2px;" href="../../../../admin/users/submission/" class="article-content btn btn-success">Edit</a>
+          {% endif %}
+        </div>
+        </div>
+      </article>
+
+      {% if not form %}
+      <a role="button" style="margin-bottom: 2px;" href="../../../../allsubmissions/#{{ post.title }}" class="article-content btn btn-primary"><i class="fas fa-backward"></i>     Back</a>
+      {% endif %}
+
+      {% if form %}
+      <div class="content-section">
+          <form method="POST">
+              {% csrf_token %}
+              <fieldset class = "form-group">
+                  <legend class="border-bottom mb-4">Update Submission</legend>
+                  {{ form|crispy }}
+              </fieldset>
+              <div class="form-group">
+                  <button class="btn btn-outline-info" type="submit">Update</button>
+              </div>
+          </form>
+      </div>
+      <p>NOTE: There must be exactly one submission for each team, meaning that at least one person on every team has to fill out this form. 
+        To show that you're the designated submitter for your team check the "Make Public" box, no one other than the designated submitter has to/should submit for your team.
+          If you're working alone do so anyway. </p>
+      {% endif %}
+
+    {% endblock content %}
