@@ -17,8 +17,6 @@ from django.views.generic import (
     DeleteView
 )
 from django.contrib.auth.forms import PasswordChangeForm
-
-##Other Python Library Imports##
 import string
 import random
 
@@ -27,16 +25,19 @@ def GenRandom(length):
     return ''.join(random.choice(letters) for i in range(length))
 
 def register(request):
+    """View for Registering new User"""
+
     m = MasterControl.objects.get(identifier="MASTER")
     if request.method == 'POST' and m.allowing_new_users:
         form = UserRegisterForm(request.POST)
         profile_form = ProfileRegisterForm(request.POST)
         if form.is_valid() and profile_form.is_valid():
-            user = form.save(commit=False)
-            user.save()
+            #User form and Profile form were filled out correctly
+            user = form.save(commit=False) #Fetch user from form
+            user.save() #Write contents to database
 
-            profile_form_values = profile_form.save(commit=False)
-            user = User.objects.get(id=user.id)
+            profile_form_values = profile_form.save(commit=False) #Fetch profile from form
+            user = User.objects.get(id=user.id) #Fetch user from database using previous id
             profile = Profile.objects.get(id=user.profile.id)
 
             if(profile_form_values.teamleader_username != ""):
@@ -46,7 +47,7 @@ def register(request):
             
             team.users.add(user)
             profile.team = team
-            profile.school = profile_form_values.school + " S.S"
+            profile.school = profile_form_values.school + " S.S" #Add common 'Secondary School' suffix
             profile.save()
             team.save()
 
@@ -55,16 +56,20 @@ def register(request):
         else:
             messages.warning(request, f'Account creation failed.')
     else:
+        #Forms were not filled out correctly
         form = UserRegisterForm()
         profile_form = ProfileRegisterForm()
     
     if(m.allowing_new_users == False):
+        #Alert user if new Users are not allowed
         messages.warning(request, f'Not accepting new users.')
 
     return render(request, 'users/register.html', {'form': form, 'profile_form': profile_form, 'page_title': "Register", 'master': m})
 
 
 class ViewSubmissions(ListView):
+    """Overall Submissions View with pagination"""
+
     def dispatch(self, request, *args, **kwargs):
         m = MasterControl.objects.get(identifier="MASTER")
         if (m.allowing_viewing_submissions == False):
@@ -78,9 +83,16 @@ class ViewSubmissions(ListView):
     ordering = ['-Score']
     paginate_by = 5
 
-
 @login_required
 def get_submission_page(request, username):
+    """View individual submission
+
+    Args:
+        username (String): Username of the submission author
+
+    Returns:
+        HttpResponse: Chosen submission 
+    """
     m = MasterControl.objects.get(identifier="MASTER")
     if(request.user.is_superuser != True):
         if(m.allowing_viewing_submissions == False):

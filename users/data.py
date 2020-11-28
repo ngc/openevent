@@ -102,8 +102,8 @@ df = pd.DataFrame(zl, columns=["Username", "Password", "Email", "Firstname"])
 df.to_csv('', index=False) 
 
 #Use a valid directory for storing your csv with usernames and passwords to be emailed out.
-#For security reasons you should urge your users to change these details when they have access to their accounts
-#You should also make a copy of this csv file and store it locally on your own machine and delete it from the server
+#For security reasons you should urge your users to change these details when they have access to their accounts.
+#Once emails have been sent out. You should delete the csv. Don't worry, you can always update passwords for your users indivdually if a problem with their email occured. 
 
 exit()
 #exec(open('users/data.py').read())

@@ -5,6 +5,8 @@ from .models import Profile, Submission, Team, Vote
 from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
+    """Form for registering a new User"""
+
     email = forms.EmailField()
 
     class Meta:
@@ -16,6 +18,8 @@ class UserRegisterForm(UserCreationForm):
         }
 
 class ProfileRegisterForm(forms.ModelForm):
+    """Form for creating a new Profile for a User"""
+
     class Meta:
         model = Profile
         fields = ('school', 'teamleader_username')
@@ -40,16 +44,22 @@ class ProfileRegisterForm(forms.ModelForm):
         return before.strip()
 
 class ProfileUpdateForm(forms.ModelForm):
+    """Form for updating a User's Profile"""
+
     class Meta:
         model = Profile
         fields = ('bio',)
 
 class TeamUpdateForm(forms.ModelForm):
+    """Form for updating a Team's information"""
+    
     class Meta:
         model = Team
         fields = ('name',)
 
 class SubmissionUpdateForm(forms.ModelForm):
+    """Form for updating information on a User's submission"""
+
     class Meta:
         model = Submission
         fields = ('title', 'content', 'imagelink', 'Main_Link', 'label_Main_Link', 'Link2', 'label_Link2', 'Link3', 'label_Link3', 'Link4', 'label_Link4', 'actualSubmission')
@@ -70,6 +80,8 @@ class SubmissionUpdateForm(forms.ModelForm):
 
 
 class VoteForm(forms.ModelForm):
+    """Form for getting a User's vote on a submission"""
+
     class Meta:
         model = Vote
         fields = ['CHOICES']
@@ -83,6 +95,7 @@ class VoteForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(VoteForm, self).__init__(*args, **kwargs)
-        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.all().exclude(actualSubmission=False).exclude(author=self.instance.user).exclude(team=self.instance.user.profile.team), widget=forms.CheckboxSelectMultiple())
-
+        self.fields['CHOICES'] = forms.ModelMultipleChoiceField(queryset=Submission.objects.all().exclude(actualSubmission=False).exclude(
+        author=self.instance.user).exclude(team=self.instance.user.profile.team),
+        widget=forms.CheckboxSelectMultiple())
 
