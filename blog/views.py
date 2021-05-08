@@ -12,15 +12,21 @@ from django import template
 # Create your views here.
 @login_required
 def home(request):
+    """
+    Homepage, user must login to view
+    """
     context = {
-        'posts': BlogPost.objects.all().order_by('-date'),
-        'master': MasterControl.objects.get(identifier="MASTER")
+        'posts': BlogPost.objects.all().order_by('-date'), #Get all event announcement blog posts 
+        'master': MasterControl.objects.get(identifier="MASTER") #Get the master control object 
     }
     return render(request, 'blog/home.html', context)
 
 def info(request):
+    """
+    Information page
+    """
     context = {
-        'posts': InformationPost.objects.all().order_by('-id'),
-        'master': MasterControl.objects.get(identifier="MASTER")
+        'posts': InformationPost.objects.all().order_by('-id'), #Get any information blog posts
+        'master': MasterControl.objects.get(identifier="MASTER") #Get the master control object
     }
     return render(request, 'blog/info.html', context)

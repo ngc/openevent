@@ -16,7 +16,6 @@ import pandas as pd
 # 3. Enter in the specified paths within the script for both the location on the server's system to the input form data, as well as the exported generated user data
 # 4. Run the script by executing 'python3 manage.py shell' then enter 'exec(open('users/data.py').read())' 
 
-
 usernames = []
 emails = []
 firstnames = []
@@ -103,7 +102,7 @@ df.to_csv('', index=False)
 
 #Use a valid directory for storing your csv with usernames and passwords to be emailed out.
 #For security reasons you should urge your users to change these details when they have access to their accounts.
-#Once emails have been sent out. You should delete the csv. Don't worry, you can always update passwords for your users indivdually if a problem with their email occured. 
+#Once emails have been sent out. You should delete the csv. Don't worry, you can always update passwords for your users individually if a problem with their email occured. 
 
 exit()
 #exec(open('users/data.py').read())
